@@ -1472,7 +1472,7 @@ async function runUmtx2Exploit(p, chain, log = async () => { }) {
 
     await chain.syscall(SYS_MUNMAP, bumpAllocatorBuffer, BUMP_ALLOCATOR_SIZE);
 
-    await log(`Done! Exploit took:   ${toHumanReadableTime(totalDuration)}`, LogLevel.SUCCESS);
+    showTemporaryAlert(`Done!:   ${toHumanReadableTime(totalDuration)}`, LogLevel.SUCCESS);
     if (debug) await log(`checkMemoryAccessFailCount: ${checkMemoryAccessFailCount}`, LogLevel.INFO);
 
     return {
