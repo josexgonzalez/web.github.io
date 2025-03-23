@@ -42,32 +42,6 @@ a:focus {
     border: none;
 }
 
-
-.btn {
-    padding: 0rem 0rem;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    margin: 0rem;
-    cursor: pointer;
-    line-height: 0rem;
-    min-width: 0rem;
-    border-radius: 0rem;
-    width: 0%;
-    background-color: var(--surface-color-primary);
-    border: none;
-    color: var(--text-color-primary);
-    font-size: 0rem;
-    transition: background-color 0s ease;
-    box-sizing: border-box;
-}
-
-.btn:hover {
-    background-color: var(--surface-color-hover);
-    color: var(--text-color-primary-hover);
-}
-
-
 #main-content{
     position: relative;
     box-sizing: border-box;
@@ -85,66 +59,6 @@ a:focus {
     box-sizing: border-box;
     display: flex;
 }
-
-#payloads-view {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: auto;
-    column-gap: 2.5rem;
-    row-gap: 1rem;
-    padding: 0 2rem 2rem 2rem;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    box-sizing: border-box;
-    align-content: start;
-}
-
-#payloads-view .btn {
-    width: 100% !important;
-}
-
-.payload-btn-title {
-    line-height: 2.5rem;
-    font-weight: bolder;
-    font-size: 1.3rem;
-    padding: 0;
-    margin: 0;
-}
-
-.payload-btn-description {
-    color: var(--text-color-secondary);
-    margin: 0;
-    padding: 0;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    line-height: 2rem;
-    font-size: 1rem;
-    max-width: 100%;
-}
-
-.btn:hover p.payload-btn-description {
-    color: var(--text-color-secondary-hover);
-}
-
-.payload-btn-info {
-    color: var(--text-color-tertiary);
-    margin: 0;
-    padding: 0;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    line-height: 1.5rem;
-    font-size: 0.9rem;
-    font-weight: normal;
-    line-clamp: 3;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-}
-
-.btn:hover p.payload-btn-info {
-    color: var(--text-color-tertiary-hover);
-}
-
 
 .selected {
     opacity: 1 !important;
@@ -164,7 +78,6 @@ a:focus {
     line-height: 1;
 }
 
-
 .log {
     display: flex;
     flex-direction: column;
@@ -181,7 +94,6 @@ a:focus {
     box-sizing: border-box;
     overflow-y: auto;
 }
-
 
 .LOG-DEBUG {
     color: #bbddbb;
