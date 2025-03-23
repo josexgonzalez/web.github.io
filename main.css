@@ -151,40 +151,6 @@ a:focus {
     pointer-events: auto !important;
 }
 
-
-#toast-container {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 9999;
-}
-
-.toast {
-    background: var(--surface-color-secondary);
-    color: var(--text-color-primary);
-    padding: 20px 25px;
-    border-radius: 1rem;
-    margin-top: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    max-width: 300px;
-    min-width: 300px;
-    opacity: 0;
-    transform: translateY(-100%);
-    transition: opacity 0.4s, transform 0.4s;
-    pointer-events: none;
-}
-
-.toast.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.toast.hide {
-    opacity: 0;
-    transform: translateY(-100%);
-}
-
-
 .l2-redirect-box {
     background: #bdc0c2;
     border-radius: 5px;

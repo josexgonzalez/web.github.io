@@ -196,10 +196,10 @@ function registerL2ButtonHandler() {
     });
 }
 
-const TOAST_SUCCESS_TIMEOUT = 2000;
-const TOAST_ERROR_TIMEOUT = 5000;
+const TOAST_SUCCESS_TIMEOUT = 0;
+const TOAST_ERROR_TIMEOUT = 0;
 
-function showToast(message, timeout = 2000) {
+function showToast(message, timeout = 0) {
     const toastContainer = document.getElementById('toast-container');
     const toast = document.createElement('div');
     toast.className = 'toast';
