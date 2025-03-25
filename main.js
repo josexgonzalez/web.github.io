@@ -937,7 +937,7 @@ async function main(userlandRW, wkOnly = false) {
         }
 
         if (await load_local_elf("elfldr.elf") == 0) {
-            await log(`elfldr listening on ${ip.ip}:9021`, LogLevel.INFO);
+            await log(`elfldr listening on ${ip.ip}:9020`, LogLevel.INFO);
             is_elfldr_running = true;
         } else {
             await log("elfldr exited with non-zero code, port 9021 will likely not work", LogLevel.ERROR);
@@ -945,14 +945,14 @@ async function main(userlandRW, wkOnly = false) {
         }
 
         // Esperar 4 segundos antes de lanzar el siguiente payload
-        await new Promise(resolve => setTimeout(resolve, 4000));
+        await new Promise(resolve => setTimeout(resolve, 9000));
 
         if (await load_local_elf("etaHEN.elf") == 0) {
             await log(`etaHEN listening on ${ip.ip}:9021`, LogLevel.INFO);
             is_etaHEN_running = true;
         } else {
             await log("etaHEN exited with non-zero code, port 9021 will likely not work", LogLevel.ERROR);
-            await new Promise(resolve => setTimeout(resolve, 9000));
+            await new Promise(resolve => setTimeout(resolve, 2000));
         }
 
 
