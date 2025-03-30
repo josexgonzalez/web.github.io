@@ -4,25 +4,19 @@
     <title>ResDev UMTX2</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="main.css">
-</head>
 
-<!-- body is set up as three rows: auto 1fr auto -->
-<body>
-    <!-- Row 1 -->
-    <div style="margin: 40px;">
-        <h1 style="text-align: center; position: absolute; top: 585;left: 10;"></h1>
-        <p class="text-secondary" id="top-bar-text"><span class="fw-bold" id="current-fw"></span></p>
         <h1 style="text-align: center; position: absolute; top: 15;left: 10;"></h1>
-        <p class="text-secondary" id="top-bar-text"><span class="fw-bold" id="listening-ip"></span></p>
-        <h1 style="text-align: center; position: absolute; top: 611;left: 10;"></h1>
-        <p class="text-secondary" id="top-bar-text"><span class="fw-bold" id="current-ip"></span></p>
+        <p class="text-secondary" id="top-bar-text"><span class="fw-bold" id="elfldr_running"></span></p>
+        <h1 style="text-align: center; position: absolute; top: 15;left: 10;"></h1>
+        <p class="text-secondary" id="top-bar-text"><span class="fw-bold" id="payload_info"></span></p>
+        <h1 style="text-align: center; position: absolute; top: 15;left: 10;"></h1>
+        <p class="text-secondary" id="top-bar-text"><span class="fw-bold" id="Listening_on"></span></p>
 
-        <!-- This is absolute positioned to the body-->
-        <div id="toast-container"></div>
-    </div>
+</head>
+<div style="margin: 40px;">
 
-    <!-- Row 2 -->
     <div id="main-content"
+
         style="display: flex; justify-content: center; align-items: center; position: absolute; top: 100;left: 50; width: 91%; height: 10.5%;">
         <div id="pre-jb-view" class="d-flex align-items-center justify-content-center flex-direction-column selected">
             <a tabindex="0" class="btn fw-bold" id="run-jb" onclick="run()"></a>
@@ -42,6 +36,17 @@
         </div>
     </div>
 
+<div style="position: absolute; top: 600px; left: 15px; text-align: left;">
+    <p class="text-secondary">
+        <span class="fw-bold" id="listening-ip"></span>
+    </p>
+    <p class="text-secondary">
+        <span class="fw-bold" id="current-fw"></span>
+    </p>
+</div>
+
+
+
     <script src="int64.js"></script>
     <script src="rop.js"></script>
     <script src="main.js"></script>
@@ -57,14 +62,12 @@
             // We log the line and column numbers as well since some exceptions (like
             // SyntaxError) do not show it in the stack trace.
             alert(
-                `${reason}\n`
-                + `${reason.sourceURL}:${reason.line}:${reason.column}\n`
-                + `${reason.stack}`
+                ${reason}\n
+                + ${reason.sourceURL}:${reason.line}:${reason.column}\n
+                + ${reason.stack}
             );
             throw reason;
         });
-        document.getElementById("current-fw").innerHTML = "[/] System Software: " + fw_str;
-        document.getElementById("listening-ip").innerHTML = "[/] Address: " + window.location.hostname;
         registerAppCacheEventHandlers();
         registerL2ButtonHandler();
         window.onload = function () {
@@ -87,10 +90,10 @@
             id="credits">
              <h4>
                  <b></b>
-             <center style="position: fixed;bottom: 3;width: 185%;margin-bottom: 0px" class="info opacity-transition"
+             <center style="position: fixed;bottom: 3;width: 185%;margin-bottom: 10px" class="info opacity-transition"
             id="credits">
              <h4>
-                 <b>UPDATED [23/03/25]</b>
+                 <b>UPDATED [30/03/25]</b>
     </script>
 </body>
 

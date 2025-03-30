@@ -398,9 +398,6 @@ const OFFSET_KERNEL_PRISON0                     = 0x02934D00;
 const OFFSET_KERNEL_ROOTVNODE                   = 0x072E74C0;
 
 const OFFSET_KERNEL_PS4SDK                      = 0x22ABE88;
-const OFFSET_KERNEL_PS5SDK                      = 0x7106598;
-const OFFSET_KERNEL_PS5SDK_                     = 0x22ABEE8;
-
 const OFFSET_KERNEL_DATA_BASE_PS4SDK            = 0x16ABE88;
+const OFFSET_KERNEL_PS5SDK                      = 0x7106598;
 const OFFSET_KERNEL_DATA_BASE_PS5SDK            = 0x6506598;
-const OFFSET_KERNEL_DATA_BASE_PS5SDK_           = 0x16ABEE8;

@@ -803,10 +803,10 @@ async function runUmtx2Exploit(p, chain, log = async () => { }) {
         const mainFdSizeBuf = alloc(0x8);
 
         const beforeRaceTime = performance.now();
+        showTemporaryAlert("Triggering race...", LogLevel.LOG);
 
         for (let i2 = 0; i2 < config.max_race_attempts; i2++) {
-            if (i2 % 1 == 1) {
-            showTemporaryAlert("Triggering race...");
+            if (i2 % 2 == 0) {
                 if (debug) {
                     await log(`Race attempt ${i}-${i2} (mem access fail count: ${checkMemoryAccessFailCount})`, LogLevel.INFO | LogLevel.FLAG_TEMP);
                 } else {
@@ -1472,7 +1472,7 @@ async function runUmtx2Exploit(p, chain, log = async () => { }) {
 
     await chain.syscall(SYS_MUNMAP, bumpAllocatorBuffer, BUMP_ALLOCATOR_SIZE);
 
-    showTemporaryAlert(`Done!:   ${toHumanReadableTime(totalDuration)}`, LogLevel.SUCCESS);
+    await log(`Done! Exploit took:   ${toHumanReadableTime(totalDuration)}`, LogLevel.SUCCESS);
     if (debug) await log(`checkMemoryAccessFailCount: ${checkMemoryAccessFailCount}`, LogLevel.INFO);
 
     return {
