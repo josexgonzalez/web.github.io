@@ -104,9 +104,7 @@ if (!navigator.userAgent.includes('PlayStation 5')) {
 
 const supportedFirmwares = ["1.00", "1.01", "1.02", "1.05", "1.10", "1.11", "1.12", "1.13", "1.14", "2.00", "2.20", "2.25", "2.26", "2.30", "2.50", "2.70", "3.00", "3.10", "3.20", "3.21", "4.00", "4.02", "4.03", "4.50", "4.51", "5.00", "5.02", "5.10", "5.50"];
 const fw_idx = navigator.userAgent.indexOf('PlayStation; PlayStation 5/') + 27;
-
 window.fw_str = navigator.userAgent.substring(fw_idx, fw_idx + 4);
-
 document.getElementById("current-fw").innerHTML = "[/] System Software: " + fw_str;
 document.getElementById("listening-ip").innerHTML = "[/] Address: " + window.location.hostname;
 window.fw_float = parseFloat(fw_str);
@@ -122,6 +120,19 @@ if (!supportedFirmwares.includes(fw_str)) {
 let nogc = [];
 
 let worker = new Worker("rop_slave.js");
+
+//Make sure worker is alive?
+async function wait_for_worker() {
+    let p1 = await new Promise((resolve) => {
+        const channel = new MessageChannel();
+        channel.port1.onmessage = () => {
+            channel.port1.close();
+            resolve(1);
+        }
+        worker.postMessage(0, [channel.port2]);
+    });
+    return p1;
+}
 
 /**
  * @param {UserlandRW|WebkitPrimitives} p 
@@ -170,7 +181,7 @@ function find_worker(p, libKernelBase) {
 /**
  * @enum {number}
  */
-var LogLevel = {
+const LogLevel = {
     DEBUG: 0,
     INFO: 1,
     LOG: 2,
@@ -178,7 +189,7 @@ var LogLevel = {
     ERROR: 4,
     SUCCESS: 5,
 
-    FLAG_TEMP: 0x1000
+    FLAG_TEMP: 0x1000,
 };
 
 let consoleElem = null;
@@ -204,8 +215,6 @@ function log(string, level) {
         return;
     } else if (isTemp) {
         lastLogIsTemp = true;
-    } else {
-        lastLogIsTemp = false;
     }
 
     let logElem = document.createElement("div");
@@ -355,13 +364,15 @@ async function prepare(p) {
 
     // Make sure worker is alive?
     async function wait_for_worker() {
-
-        return new Promise((resolve) => {
-            worker.onmessage = function (e) {
+        let p1 = await new Promise((resolve) => {
+            const channel = new MessageChannel();
+            channel.port1.onmessage = () => {
+                channel.port1.close();
                 resolve(1);
             }
-            worker.postMessage(0);
+            worker.postMessage(0, [channel.port2]);
         });
+        return p1;
     }
 
     let worker = new Worker("rop_slave.js");
@@ -397,12 +408,14 @@ async function prepare(p) {
         p.write8(stack_pointer_ptr, chain.stack_entry_point);
 
         let p1 = await new Promise((resolve) => {
-            worker.onmessage = function (e) {
+            const channel = new MessageChannel();
+            channel.port1.onmessage = () => {
+                channel.port1.close();
                 resolve(1);
             }
-            worker.postMessage(0);
+            worker.postMessage(0, [channel.port2]);
         });
-        if (p1 == 0) {
+        if (p1 === 0) {
             throw new Error("The rop thread ran away. ");
         }
     }
@@ -562,7 +575,7 @@ async function main(userlandRW, wkOnly = false) {
     
 
     if (!wkOnly && is_elfldr_running) {
-        let res = confirm("elfldr seems to be running, would you like to skip the kernel exploit, and switch to sender-only mode?");
+        let res = confirm("elfldr is running");
         if (res) {
             wkOnly = true;
         }
@@ -575,7 +588,10 @@ async function main(userlandRW, wkOnly = false) {
         const response = await fetch('payloads/' + filename);
         if (!response.ok) {
             throw new Error(`Failed to fetch the binary file. Status: ${response.status}`);
-        }
+    }
+
+    document.getElementById('payload_info').innerHTML = `[/] Payload: ${filename} loaded`;
+    document.getElementById('elfldr_running').innerHTML = `[/] Payload: ${is_elfldr_running ? "elfldr.bin loaded" : "elfldr.bin is not loaded"}`;
 
         const data = await response.arrayBuffer();
 
@@ -589,6 +605,9 @@ async function main(userlandRW, wkOnly = false) {
         } else {
             throw new Error(`Unsupported backing array type. BYTES_PER_ELEMENT: ${elf_store.backing.BYTES_PER_ELEMENT}`);
         }
+
+        // zero out elf_store.backing
+        elf_store.backing.fill(0);
 
         elf_store.backing.set(byteArray);
         return byteArray.byteLength;

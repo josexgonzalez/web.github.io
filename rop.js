@@ -15,8 +15,6 @@ class rop {
 
         this.stack_memory = p.malloc(this.stack_dwords + 0x2 + 0x200);
         this.stack_array = this.stack_memory.backing;
-        this.zeroed_stack = new Uint32Array(this.stack_dwords);
-
         this.stack_entry_point = this.stack_memory.add32(this.reserved_stack);
         this.return_value = this.stack_memory.add32(this.stack_size);
         this.initial_count = 0;
@@ -51,8 +49,9 @@ class rop {
     clear() {
         this.count = this.initial_count;
         this.branches_count = 0;
-        // this is faster than using fill(0) (for 0x20000 elem u32 array (avg from 100 runs): js-loop: ~29.99ms, fill: ~4.48ms, set: ~0.04ms)
-        this.stack_array.set(this.zeroed_stack);
+        for (let i = 0; i < this.stack_dwords; i++) {
+            this.stack_array[i] = 0x0;
+        }
     }
 
     increment_stack() {
