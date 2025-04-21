@@ -641,13 +641,21 @@ async function main(userlandRW, wkOnly = false) {
         await log("QA Flags y UToken falsificados a 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", LogLevel.SUCCESS);
         showTemporaryAlert("Devkit Patch Applied");
 
-        // Set qa flags and utoken flags for debug menu enable
-        let qaf_dword = await krw.read4(get_kaddr(OFFSET_KERNEL_QA_FLAGS));
-        await krw.write4(get_kaddr(OFFSET_KERNEL_QA_FLAGS), qaf_dword | 0x10300);
+        // Activar overlay de debug (FPS, CPU, RAM, etc.)
+       let devkit_flags = await krw.read2(get_kaddr(OFFSET_KERNEL_QA_FLAGS));
+       await krw.write2(get_kaddr(OFFSET_KERNEL_QA_FLAGS), devkit_flags | 0x8000 | 0x0040);
+       await log("Overlay de debug activado", LogLevel.INFO);
 
-        let utoken_flags = await krw.read1(get_kaddr(OFFSET_KERNEL_UTOKEN_FLAGS));
-        await krw.write1(get_kaddr(OFFSET_KERNEL_UTOKEN_FLAGS), utoken_flags | 0x1);
-        await log("Enabled debug menu", LogLevel.INFO);
+       // Habilitar QA Flags avanzados (opcional)
+       let qa_flags_3 = await krw.read1(get_kaddr(OFFSET_KERNEL_QA_FLAGS).add32(3));
+       await krw.write1(get_kaddr(OFFSET_KERNEL_QA_FLAGS).add32(3), qa_flags_3 | 0x02);
+       await log("QA Flags extendidos habilitados", LogLevel.INFO);
+
+       // Activar flag de firmware sin verificación (opcional)
+       let fw_flags = await krw.read2(get_kaddr(OFFSET_KERNEL_QA_FLAGS));
+       await krw.write2(get_kaddr(OFFSET_KERNEL_QA_FLAGS), fw_flags | 0x08);
+       await log("Firmware update flag aplicado", LogLevel.INFO)
+
 
         // Patch creds
         let cur_uid = await chain.syscall(SYS_GETUID);
