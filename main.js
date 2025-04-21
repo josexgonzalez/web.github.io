@@ -631,6 +631,15 @@ async function main(userlandRW, wkOnly = false) {
 
         // Set targetid to DEX
         await krw.write1(get_kaddr(OFFSET_KERNEL_TARGETID), 0x80);
+        showTemporaryAlert("OFFSET_KERNEL_TARGETID), 0x80)");
+
+        // Falsificar QA Flags y UToken a 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        for (let i = 0; i < 16; i += 4) {
+            await krw.write4(get_kaddr(OFFSET_KERNEL_QA_FLAGS).add32(i), 0xFFFFFFFF);
+            await krw.write4(get_kaddr(OFFSET_KERNEL_UTOKEN_FLAGS).add32(i), 0xFFFFFFFF);
+        }
+        await log("QA Flags y UToken falsificados a 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", LogLevel.SUCCESS);
+        showTemporaryAlert("Devkit Patch Applied");
 
         // Set qa flags and utoken flags for debug menu enable
         let qaf_dword = await krw.read4(get_kaddr(OFFSET_KERNEL_QA_FLAGS));
