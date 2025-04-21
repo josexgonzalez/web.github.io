@@ -625,55 +625,37 @@ async function main(userlandRW, wkOnly = false) {
             return krw.ktextBase.add32(offset);
         }
 
-// Set security flags
-let security_flags = await krw.read4(get_kaddr(OFFSET_KERNEL_SECURITY_FLAGS));
-await krw.write4(get_kaddr(OFFSET_KERNEL_SECURITY_FLAGS), security_flags | 0x14);
+        // Set security flags
+        let security_flags = await krw.read4(get_kaddr(OFFSET_KERNEL_SECURITY_FLAGS));
+        await krw.write4(get_kaddr(OFFSET_KERNEL_SECURITY_FLAGS), security_flags | 0x14);
 
-// Set targetid to TOOL (también podrías usar 0x82 para DEX)
-await krw.write1(get_kaddr(OFFSET_KERNEL_TARGETID), 0x80);
-showTemporaryAlert("TargetID cambiado a TOOL (0x80)");
+        // Set targetid to DEX
+        await krw.write1(get_kaddr(OFFSET_KERNEL_TARGETID), 0x80);
+        showTemporaryAlert("OFFSET_KERNEL_TARGETID), 0x80)");
 
-// Falsificar QA Flags y UToken a 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-for (let i = 0; i < 16; i += 4) {
-    await krw.write4(get_kaddr(OFFSET_KERNEL_QA_FLAGS).add32(i), 0xFFFFFFFF);
-    await krw.write4(get_kaddr(OFFSET_KERNEL_UTOKEN_FLAGS).add32(i), 0xFFFFFFFF);
-}
-await log("QA Flags y UToken falsificados a 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", LogLevel.SUCCESS);
-showTemporaryAlert("Devkit Patch Applied");
+        // Falsificar QA Flags y UToken a 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        for (let i = 0; i < 16; i += 4) {
+            await krw.write4(get_kaddr(OFFSET_KERNEL_QA_FLAGS).add32(i), 0xFFFFFFFF);
+            await krw.write4(get_kaddr(OFFSET_KERNEL_UTOKEN_FLAGS).add32(i), 0xFFFFFFFF);
+        }
+        await log("QA Flags y UToken falsificados a 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", LogLevel.SUCCESS);
+        showTemporaryAlert("Devkit Patch Applied");
 
-// Establecer QA Flags para el menú de debug
-let qaf_dword = await krw.read4(get_kaddr(OFFSET_KERNEL_QA_FLAGS));
-await krw.write4(get_kaddr(OFFSET_KERNEL_QA_FLAGS), qaf_dword | 0x10300);
+        // Activar overlay de debug (FPS, CPU, RAM, etc.)
+       let devkit_flags = await krw.read2(get_kaddr(OFFSET_KERNEL_DATA_BASE_DEVKIT_FLAGS));
+       await krw.write2(get_kaddr(OFFSET_KERNEL_DATA_BASE_DEVKIT_FLAGS), devkit_flags | 0x8000 | 0x0040);
+       await log("Overlay de debug activado", LogLevel.INFO);
 
-// Activar bit de debug en utoken_flags[0]
-let utoken_flags = await krw.read1(get_kaddr(OFFSET_KERNEL_UTOKEN_FLAGS));
-await krw.write1(get_kaddr(OFFSET_KERNEL_UTOKEN_FLAGS), utoken_flags | 0x01);
-await log("Enabled debug menu", LogLevel.INFO);
+       // Habilitar QA Flags avanzados (opcional)
+       let qa_flags_3 = await krw.read1(get_kaddr(OFFSET_KERNEL_QA_FLAGS).add32(3));
+       await krw.write1(get_kaddr(OFFSET_KERNEL_QA_FLAGS).add32(3), qa_flags_3 | 0x02);
+       await log("QA Flags extendidos habilitados", LogLevel.INFO);
 
-// ============================
-// Opcionales extra útiles
-// ============================
-
-// Activar overlay de debug (FPS, CPU, RAM, etc.)
-let devkit_flags = await krw.read2(get_kaddr(OFFSET_KERNEL_DEVKIT_FLAGS));
-devkit_flags |= 0x8000;  // Mostrar overlay de rendimiento
-devkit_flags |= 0x0040;  // Extra debug flag
-await krw.write2(get_kaddr(OFFSET_KERNEL_DEVKIT_FLAGS), devkit_flags);
-showTemporaryAlert("Overlay de debug activado");
-
-// Opcional: QA_FLAGS[3] |= 0x02 (QA Menu avanzado)
-let qa_flags_3 = await krw.read2(get_kaddr(OFFSET_KERNEL_QA_FLAGS).add32(3));
-qa_flags_3 |= 0x02;
-await krw.write2(get_kaddr(OFFSET_KERNEL_QA_FLAGS).add32(3), qa_flags_3);
-
-// Opcional: Activar modo "firmware update sin validación"
-let fw_flags = await krw.read2(get_kaddr(OFFSET_KERNEL_FIRMWARE_FLAGS));
-fw_flags |= 0x08;
-await krw.write2(get_kaddr(OFFSET_KERNEL_FIRMWARE_FLAGS), fw_flags);
-
-// Final message
-showTemporaryAlert("Todas las flags de entorno dev/debug aplicadas");
-await log("Parcheo de entorno DevKit completo", LogLevel.SUCCESS);
+       // Flag para permitir actualización de firmware sin verificación estricta
+       let fw_flags = await krw.read2(get_kaddr(OFFSET_KERNEL_DATA_BASE_DEVKIT_FLAGS));
+       fw_flags |= 0x08;
+       await krw.write2(get_kaddr(OFFSET_KERNEL_DATA_BASE_DEVKIT_FLAGS), fw_flags);
+       await log("Flag de actualización de firmware aplicado", LogLevel.SUCCESS);
 
 
         // Patch creds
