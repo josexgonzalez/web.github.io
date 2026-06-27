@@ -1,108 +1,56 @@
-<div id="content-box">
-
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <title>ResDev UMTX v2.1</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Hub Preview</title>
 
-        <h1 style="text-align: center; position: absolute; top: 15;left: 10;"></h1>
-        <p class="text-secondary" id="top-bar-text"><span class="fw-bold" id="elfldr_running"></span></p>
-        <h1 style="text-align: center; position: absolute; top: 15;left: 10;"></h1>
-        <p class="text-secondary" id="top-bar-text"><span class="fw-bold" id="payload_info"></span></p>
-        <h1 style="text-align: center; position: absolute; top: 15;left: 10;"></h1>
-        <p class="text-secondary" id="top-bar-text"><span class="fw-bold" id="Listening_on"></span></p>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+        }
+
+        video {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #000;
+        }
+    </style>
 </head>
-<div style="margin: 40px;">
+<body>
 
-    <div id="main-content"
+<video
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto">
+    <source src="dynamic_background.mp4" type="video/mp4">
+    Tu navegador no soporta vídeo HTML5.
+</video>
 
-        style="display: flex; justify-content: center; align-items: center; position: absolute; top: 100;left: 50; width: 91%; height: 10.5%;">
-        <div id="pre-jb-view" class="d-flex align-items-center justify-content-center flex-direction-column selected">
-            <a tabindex="0" class="btn fw-bold" id="run-jb" onclick="run()"></a>
-        </div>
+<script>
+const video = document.querySelector("video");
 
-        <script>
-            setTimeout(() => {
-                document.getElementById('run-jb').click();
-            }, 3000);
-        </script>
+// Intenta reproducir automáticamente
+video.play().catch(() => {
+    document.addEventListener("click", () => {
+        video.play();
+    }, { once: true });
+});
+</script>
 
-        <div id="console-view">
-            <div id="console" class="log"></div>
-        </div>
-
-        <div id="payloads-view">
-        </div>
-    </div>
-
-<div style="position: absolute; top: 600px; left: 15px; text-align: left;">
-    <p class="text-secondary">
-        <span class="fw-bold" id="listening-ip"></span>
-    </p>
-    <p class="text-secondary">
-        <span class="fw-bold" id="current-fw"></span>
-    </p>
-</div>
-
-
-
-    <script>
-        addEventListener('unhandledrejection', (event) => {
-            const reason = event.reason;
-            // We log the line and column numbers as well since some exceptions (like
-            // SyntaxError) do not show it in the stack trace.
-            alert(
-                ${reason}\n
-                + ${reason.sourceURL}:${reason.line}:${reason.column}\n
-                + ${reason.stack}
-            );
-            throw reason;
-        });
-        registerAppCacheEventHandlers();
-        registerL2ButtonHandler();
-        window.onload = function () {
-            let autoload = sessionStorage.getItem(SESSIONSTORE_ON_LOAD_AUTORUN_KEY);
-            if (autoload) {
-                run(autoload == "wkonly", false);
-            }
-        };
-    </script>
 </body>
-
-        </div>
-
-          </div>
-           <center style="position: fixed;bottom: 0;width: 26%;margin-bottom: 46px" class="info opacity-transition"
-            id="credits">
-            <h4>
-                <b></b>
-            <center style="position: fixed;bottom: 3;width: 17%;margin-bottom: 20px" class="info opacity-transition"
-            id="credits">
-             <h4>
-                 <b></b>
-             <center style="position: fixed;bottom: 3;width: 185%;margin-bottom: 10px" class="info opacity-transition"
-            id="credits">
-             <h4>
-                 <b>spotify.com</b>
-    </script>
-</body>
-
-</div>
-
-<style>
-    #content-box {
-        width: 120%; /* Ajusta el tamaño según necesites */
-        max-width: 1008px;
-        height: 90vh; /* Ajusta la altura según necesites */
-        overflow: auto; /* Agrega scroll si el contenido es muy grande */
-        position: absolute;
-        top: 50%;
-        left: 65%;
-        transform: translate(-50%, -50%);
-        background-color: rgba(51, 51, 51, 0.2); /* Color de fondo semi-transparente */
-        border-radius: 5px;
-        padding: 20px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    }
-</style>
+</html>
