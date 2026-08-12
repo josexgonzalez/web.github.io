@@ -4,17 +4,74 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>W2JB</title>
+
 <script>
-/* Instant arm — no click, no chrome. Preview lite host only. */
-location.replace(
-  "slopkit/poops.html?go=1&auto=1&trigger=netcontrol&payload=1&v=lite1"
-);
+(function () {
+
+    function start() {
+        location.replace(
+            "slopkit/poops.html?go=1&auto=1&trigger=netcontrol&payload=1&v=lite1"
+        );
+    }
+
+    function waitForCache() {
+        var appCache = window.applicationCache;
+
+        if (!appCache) {
+            document.getElementById("status").textContent =
+                "AppCache no disponible";
+            return;
+        }
+
+        function check() {
+            var status = appCache.status;
+
+            /*
+             * IDLE      = caché disponible
+             * UPDATEREADY = nueva caché descargada
+             * OBSOLETE  = manifest obsoleto
+             */
+            if (status === appCache.IDLE ||
+                status === appCache.UPDATEREADY) {
+
+                document.getElementById("status").textContent =
+                    "Cache completada. Iniciando...";
+
+                setTimeout(start, 300);
+            }
+        }
+
+        appCache.addEventListener("cached", check);
+        appCache.addEventListener("updateready", check);
+        appCache.addEventListener("noupdate", check);
+
+        appCache.addEventListener("error", function () {
+            document.getElementById("status").textContent =
+                "Error al crear la cache";
+        });
+
+        check();
+    }
+
+    window.addEventListener("load", waitForCache);
+
+})();
 </script>
+
 </head>
-<body style="margin:0;background:#000;color:#9ab;font:14px/1.4 monospace;padding:16px">
-Starting jailbreak…
+
+<body style="margin:0;background:#000;color:#9ab;
+font:14px/1.4 monospace;padding:16px">
+
+<div id="status">Preparando cache...</div>
+
 <noscript>
-  <p><a href="slopkit/poops.html?go=1&amp;auto=1&amp;trigger=netcontrol&amp;payload=1&amp;v=lite1">Start jailbreak</a></p>
+<p>
+<a href="slopkit/poops.html?go=1&amp;auto=1&amp;trigger=netcontrol&amp;payload=1&amp;v=lite1">
+Start
+</a>
+</p>
 </noscript>
+
 </body>
 </html>
