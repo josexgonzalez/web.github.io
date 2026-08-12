@@ -1,8 +1,8 @@
 CACHE MANIFEST
-# v1
+# v2
 
+CACHE:
 index.html
-cache.manifest
 ui/payload-web-sent.png
 ui/payload-web-sending.png
 ui/payload-web-failed.png
@@ -42,3 +42,6 @@ payloads/kexp_2026_05_25.bin
 payloads/elfldr-ps5-1360.elf
 offsets/10.20.js
 document/en/ps5/index.html
+
+NETWORK:
+*
