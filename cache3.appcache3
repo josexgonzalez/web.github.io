@@ -1,9 +1,10 @@
 CACHE MANIFEST
-main.css
-custom_host_stuff.js
-cache3.appcache3
-cache.appcache
 appcache_handler.js
+cache3.appcache3
+custom_host_stuff.js
+Exploit_Host_Server_v1.2.exe
+index.html
+main.css
 index.html
 ui/payload-web-sent.png
 ui/payload-web-sending.png
