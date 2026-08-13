@@ -7,151 +7,88 @@
   <link rel="stylesheet" href="style.css" />
   <title>WebKit Autoloader v0.2.1 by PLK (built 2026-08-12 09:00:18 UTC)</title>
 
-<script id="ps5-cache-controller">
-(function () {
-  "use strict";
+<script id="ps5-sw-cache-controller">
+(function(){
+"use strict";
+var CACHE_VERSION="ps5-offline-v10-20";
+var READY_KEY="PS5_SW_CACHE_READY_V1";
+var overlay,title,status,bar,pct;
 
-  var KEY = "PS5_OFFLINE_CACHE_READY_V2";
-  var appCache = window.applicationCache;
-  var overlay, title, status, bar, pct;
+function ui(){
+  if(overlay)return;
+  var s=document.createElement("style");
+  s.id="ps5-sw-cache-style";
+  s.textContent="#ps5-sw-overlay{position:fixed;inset:0;z-index:2147483647;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif}#ps5-sw-box{width:80%;max-width:560px;text-align:center}#ps5-sw-title{font-size:28px;margin-bottom:14px}#ps5-sw-status{font-size:15px;opacity:.82;margin-bottom:20px}#ps5-sw-track{height:10px;background:#222;border-radius:6px;overflow:hidden}#ps5-sw-bar{height:100%;width:0%;background:#fff;transition:width .15s linear}#ps5-sw-pct{margin-top:10px;font-size:13px;opacity:.75}";
+  document.documentElement.appendChild(s);
+  overlay=document.createElement("div");
+  overlay.id="ps5-sw-overlay";
+  overlay.innerHTML='<div id="ps5-sw-box"><div id="ps5-sw-title">Creando cache...</div><div id="ps5-sw-status">Preparando cache offline</div><div id="ps5-sw-track"><div id="ps5-sw-bar"></div></div><div id="ps5-sw-pct">0%</div></div>';
+  document.documentElement.appendChild(overlay);
+  title=document.getElementById("ps5-sw-title");
+  status=document.getElementById("ps5-sw-status");
+  bar=document.getElementById("ps5-sw-bar");
+  pct=document.getElementById("ps5-sw-pct");
+}
+function prog(n,t){if(bar)bar.style.width=n+"%";if(pct)pct.textContent=n+"%";if(status)status.textContent=t}
+function closeUI(){if(overlay)overlay.remove();var s=document.getElementById("ps5-sw-cache-style");if(s)s.remove();overlay=null}
+function ready(){try{localStorage.setItem(READY_KEY,CACHE_VERSION)}catch(e){};prog(100,"Cache creada correctamente");title.textContent="Cache terminada";setTimeout(closeUI,700)}
+function marked(){try{return localStorage.getItem(READY_KEY)===CACHE_VERSION}catch(e){return false}}
 
-  function ui() {
-    if (overlay) return;
-    var style = document.createElement("style");
-    style.id = "ps5-cache-style";
-    style.textContent =
-      "#ps5-cache-overlay{position:fixed;inset:0;z-index:2147483647;background:#000;display:flex;align-items:center;justify-content:center;color:#fff;font-family:Arial,sans-serif}" +
-      "#ps5-cache-box{width:78%;max-width:560px;text-align:center}" +
-      "#ps5-cache-title{font-size:28px;margin-bottom:14px}" +
-      "#ps5-cache-status{font-size:15px;opacity:.82;margin-bottom:20px}" +
-      "#ps5-cache-track{height:10px;background:#222;border-radius:6px;overflow:hidden}" +
-      "#ps5-cache-bar{height:100%;width:0%;background:#fff;transition:width .15s linear}" +
-      "#ps5-cache-pct{margin-top:10px;font-size:13px;opacity:.75}";
-    document.documentElement.appendChild(style);
+function start(){
+  if(!("serviceWorker" in navigator)){ closeUI(); return; }
 
-    overlay = document.createElement("div");
-    overlay.id = "ps5-cache-overlay";
-    overlay.innerHTML =
-      '<div id="ps5-cache-box">' +
-      '<div id="ps5-cache-title">Creando cache...</div>' +
-      '<div id="ps5-cache-status">Preparando cache offline</div>' +
-      '<div id="ps5-cache-track"><div id="ps5-cache-bar"></div></div>' +
-      '<div id="ps5-cache-pct">0%</div></div>';
-    document.documentElement.appendChild(overlay);
+  var offline=navigator.onLine===false;
 
-    title = document.getElementById("ps5-cache-title");
-    status = document.getElementById("ps5-cache-status");
-    bar = document.getElementById("ps5-cache-bar");
-    pct = document.getElementById("ps5-cache-pct");
-  }
+  // Offline and already controlled: use the service worker immediately.
+  if(offline && navigator.serviceWorker.controller){ closeUI(); return; }
 
-  function setProgress(n, text) {
-    n = Math.max(0, Math.min(100, Math.round(n)));
-    if (bar) bar.style.width = n + "%";
-    if (pct) pct.textContent = n + "%";
-    if (status && text) status.textContent = text;
-  }
+  // Offline before first installation: there is nothing to build.
+  if(offline){ closeUI(); return; }
 
-  function closeUI() {
-    if (!overlay) return;
-    overlay.remove();
-    var s = document.getElementById("ps5-cache-style");
-    if (s) s.remove();
-    overlay = null;
-  }
+  // If the service worker already controls this page, cache was installed.
+  if(navigator.serviceWorker.controller && marked()){ closeUI(); return; }
 
-  function ready() {
-    try { localStorage.setItem(KEY, "1"); } catch (e) {}
-    setProgress(100, "Cache creada correctamente");
-    title.textContent = "Cache terminada";
-    setTimeout(closeUI, 700);
-  }
+  ui(); prog(5,"Registrando cache offline...");
 
-  function isMarkedReady() {
-    try { return localStorage.getItem(KEY) === "1"; } catch (e) { return false; }
-  }
+  navigator.serviceWorker.register("sw.js",{scope:"./"}).then(function(reg){
+    prog(15,"Descargando recursos...");
+    var worker=reg.installing||reg.waiting||reg.active;
 
-  /*
-   * ApplicationCache is the important offline layer here.
-   * First visit: wait for the manifest cache to finish.
-   * Later online/offline visits: do NOT rebuild it.
-   */
-  function begin() {
-    var offline = navigator.onLine === false;
-
-    // Never try to update/build a cache while offline.
-    if (offline) {
-      if (isMarkedReady() || (appCache && appCache.status === 1)) {
-        closeUI();
-        return;
+    function watch(w){
+      if(!w)return;
+      if(w.state==="installed"){
+        if(navigator.serviceWorker.controller){
+          prog(95,"Activando cache...");
+          setTimeout(ready,200);
+        }else{
+          prog(95,"Activando cache...");
+          // skipWaiting/clients.claim will control the page. Reload once so
+          // all future requests are intercepted by the worker.
+          setTimeout(function(){
+            try{localStorage.setItem(READY_KEY,CACHE_VERSION)}catch(e){}
+            location.reload();
+          },300);
+        }
       }
-      closeUI();
-      return;
+      if(w.state==="redundant"){closeUI()}
+      w.addEventListener("statechange",function(){watch(w)}, {once:true});
     }
+    watch(worker);
 
-    // Already completed previously: continue immediately.
-    if (isMarkedReady() && appCache) {
-      closeUI();
-      return;
+    // If this is an already-active registration but this page wasn't yet
+    // controlled, reload once to establish control.
+    if(reg.active && !navigator.serviceWorker.controller){
+      prog(90,"Activando cache...");
+      setTimeout(function(){location.reload()},300);
     }
+  }).catch(function(){
+    // Do not block the launcher if this WebKit build lacks SW support.
+    closeUI();
+  });
+}
 
-    if (!appCache) {
-      closeUI();
-      return;
-    }
-
-    // If the browser already has an active cache, no need to rebuild.
-    // STATUS values: UNCACHED=0, IDLE=1, CHECKING=2, DOWNLOADING=3,
-    // UPDATEREADY=4, OBSOLETE=5.
-    if (appCache.status === 1 && isMarkedReady()) {
-      closeUI();
-      return;
-    }
-
-    ui();
-
-    appCache.addEventListener("checking", function () {
-      setProgress(5, "Comprobando recursos...");
-    }, false);
-
-    appCache.addEventListener("downloading", function () {
-      setProgress(10, "Descargando recursos para uso offline...");
-    }, false);
-
-    appCache.addEventListener("progress", function (e) {
-      var n = e.total ? 10 + (e.loaded / e.total) * 85 : 50;
-      setProgress(n, e.total ?
-        ("Guardando recurso " + e.loaded + " de " + e.total) :
-        "Guardando recursos...");
-    }, false);
-
-    appCache.addEventListener("cached", ready, false);
-    appCache.addEventListener("updateready", function () {
-      // Swap the newly downloaded manifest into the active cache.
-      try { appCache.swapCache(); } catch (e) {}
-      ready();
-    }, false);
-
-    appCache.addEventListener("noupdate", function () {
-      // Existing manifest cache is already usable.
-      try { localStorage.setItem(KEY, "1"); } catch (e) {}
-      closeUI();
-    }, false);
-
-    appCache.addEventListener("error", function () {
-      // Do not fake success. If offline cache wasn't created, let the page
-      // continue rather than leaving a permanent loading screen.
-      closeUI();
-    }, false);
-
-    setProgress(2, "Comprobando cache...");
-    try { appCache.update(); } catch (e) { closeUI(); }
-  }
-
-  if (document.readyState === "loading")
-    document.addEventListener("DOMContentLoaded", begin, false);
-  else
-    begin();
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);
+else start();
 })();
 </script>
 
