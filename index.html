@@ -5,13 +5,120 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
   <title>WebKit Autoloader v0.2.1 by PLK (built 2026-08-12 09:00:18 UTC)</title>
+
+<script id="real-cache-script">
+(function () {
+  "use strict";
+  var overlay, title, status, bar, percent, done = false;
+
+  function makeUI() {
+    overlay = document.createElement("div");
+    overlay.id = "real-cache-overlay";
+    overlay.innerHTML =
+      '<div id="real-cache-box">' +
+      '<div id="real-cache-title">Creando cache...</div>' +
+      '<div id="real-cache-status">Preparando recursos</div>' +
+      '<div id="real-cache-track"><div id="real-cache-bar"></div></div>' +
+      '<div id="real-cache-percent">0%</div></div>';
+
+    var css = document.createElement("style");
+    css.id = "real-cache-style";
+    css.textContent =
+      "#real-cache-overlay{position:fixed;inset:0;z-index:2147483647;background:#000;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;color:#fff}" +
+      "#real-cache-box{width:min(520px,84vw);text-align:center}" +
+      "#real-cache-title{font-size:28px;margin-bottom:16px}" +
+      "#real-cache-status{font-size:16px;opacity:.85;margin-bottom:22px}" +
+      "#real-cache-track{height:12px;background:#222;border-radius:8px;overflow:hidden}" +
+      "#real-cache-bar{height:100%;width:0%;background:#fff;transition:width .15s linear}" +
+      "#real-cache-percent{margin-top:12px;font-size:14px;opacity:.8}";
+    document.documentElement.appendChild(css);
+    document.documentElement.appendChild(overlay);
+    title = document.getElementById("real-cache-title");
+    status = document.getElementById("real-cache-status");
+    bar = document.getElementById("real-cache-bar");
+    percent = document.getElementById("real-cache-percent");
+  }
+
+  function progress(n, text) {
+    n = Math.max(0, Math.min(100, Math.round(n)));
+    bar.style.width = n + "%";
+    percent.textContent = n + "%";
+    status.textContent = text;
+  }
+
+  function finish() {
+    if (done) return;
+    done = true;
+    progress(100, "Cache creada correctamente");
+    title.textContent = "Cache terminada";
+    setTimeout(function () {
+      overlay.remove();
+      var s = document.getElementById("real-cache-style");
+      if (s) s.remove();
+      window.dispatchEvent(new Event("real-cache-ready"));
+    }, 700);
+  }
+
+  async function buildCache() {
+    makeUI();
+
+    if (!window.caches || !window.fetch) {
+      progress(100, "Cache Storage no disponible");
+      finish();
+      return;
+    }
+
+    var urls = [location.href];
+
+    // Collect resources referenced by the launcher.
+    document.querySelectorAll("script[src],link[href],img[src],iframe[src],source[src]").forEach(function(el) {
+      var u = el.getAttribute("src") || el.getAttribute("href");
+      if (!u || /^(data|blob):/i.test(u)) return;
+      try { urls.push(new URL(u, location.href).href); } catch(e) {}
+    });
+
+    // Read the manifest if present and add all its CACHE entries.
+    var manifest = document.documentElement.getAttribute("manifest");
+    if (manifest) {
+      try {
+        var mu = new URL(manifest, location.href).href;
+        var txt = await fetch(mu, {cache:"no-store"}).then(function(r){return r.text();});
+        var section = txt.split(/\nNETWORK:\s*/i)[0];
+        section.replace(/^CACHE MANIFEST\s*/i, "").split(/\r?\n/).forEach(function(line) {
+          line = line.trim();
+          if (!line || line[0] === "#" || line === "CACHE:" || line.indexOf("*") >= 0) return;
+          try { urls.push(new URL(line, mu).href); } catch(e) {}
+        });
+      } catch(e) {}
+    }
+
+    urls = Array.from(new Set(urls));
+    var cache = await caches.open("ps5-webkit-autoloader-v1");
+
+    for (var i = 0; i < urls.length; i++) {
+      try {
+        var response = await fetch(urls[i], {cache:"reload"});
+        if (response.ok) await cache.put(urls[i], response.clone());
+      } catch(e) {}
+      progress(((i + 1) / urls.length) * 100,
+        "Guardando recurso " + (i + 1) + " de " + urls.length);
+    }
+
+    finish();
+  }
+
+  if (document.readyState === "loading")
+    document.addEventListener("DOMContentLoaded", buildCache);
+  else
+    buildCache();
+})();
+</script>
+
 </head>
 
 <body>
   <div id="splash" aria-hidden="false">
-    <img class="logo" src="../logo.svg" alt="WebKit Autoloader" />
     <h1>WebKit Autoloader</h1>
   </div>
 
