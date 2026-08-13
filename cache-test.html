@@ -1,0 +1,23 @@
+<!doctype html>
+<html manifest="app.appcache">
+<meta charset="utf-8">
+<title>PS5 cache test</title>
+<style>
+body{font-family:Arial;background:#000;color:#fff;padding:28px}
+.ok{color:#7f7}.bad{color:#f77}li{margin:8px 0}
+</style>
+<h1>Cache offline PS5</h1>
+<ul id="r"></ul>
+<script>
+const r=document.getElementById('r');
+function add(t,ok){const x=document.createElement('li');x.className=ok?'ok':'bad';x.textContent=(ok?'OK ':'ERROR ')+t;r.appendChild(x)}
+add('AppCache disponible: '+(!!window.applicationCache),!!window.applicationCache);
+add('Conexión actual: '+(navigator.onLine?'online':'offline'),true);
+if(window.applicationCache){
+  const s=applicationCache.status;
+  add('Estado AppCache: '+s, s!==0);
+}
+fetch('slopkit/slopkit/main.js?v=19',{cache:'no-store'})
+ .then(x=>add('main.js?v=19: '+x.status,x.ok))
+ .catch(()=>add('main.js?v=19 no accesible por red; prueba la página offline',false));
+</script>

@@ -1,8 +1,10 @@
 CACHE MANIFEST
-# PS5 WebKit Autoloader cache
+# PS5 WebKit offline cache efce838ec4a7caae
 
 CACHE:
 app.js
+cache-test.html
+index.html
 payloads/payload.elf
 placeholder.txt
 slopkit/README.md
@@ -27,11 +29,15 @@ slopkit/payloads/elfldr-ps5-1360.elf
 slopkit/payloads/kexp_2026_05_25.bin
 slopkit/slopkit/cat.jpg
 slopkit/slopkit/core.js
+slopkit/slopkit/core.js?v=10
 slopkit/slopkit/int64.js
 slopkit/slopkit/main.js
+slopkit/slopkit/main.js?v=19
 slopkit/slopkit/mem.js
 slopkit/slopkit/poops.html
+slopkit/slopkit/poops.html?go=1&auto=1&production=1&trigger=netcontrol&attempts=8&only=ps0_preflight,ps1_prepare,ps3_stage0,ps4_validate,ps5_stage1,ps6_stage2,ps8_stage3,ps9_stage4,ps10_stage5&log=debug&payload=1&autoload=payload.elf&v=41
 slopkit/slopkit/poops.js
+slopkit/slopkit/poops.js?v=37
 slopkit/slopkit/rop.js
 slopkit/slopkit/rop_slave.js
 slopkit/slopkit/syscalls.js
