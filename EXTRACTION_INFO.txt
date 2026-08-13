@@ -1,0 +1,5 @@
+Extracted from ApplicationCache(2).db
+Cache group: http://127.0.0.1:18181/cache.appcache
+Origin: http_127.0.0.1_18181
+Resources: 91
+Unique path files: 71
