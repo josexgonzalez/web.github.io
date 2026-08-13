@@ -10,82 +10,33 @@
 <script id="ps5-visible-cache-controller">
 (function(){
 "use strict";
-var CACHE_NAME="ps5-offline-v10-20-visible";
-var READY="PS5_VISIBLE_CACHE_READY_V1";
+var CACHE_NAME="ps5-offline-v10-20-visible",overlay,title,status,bar,pct;
 var RESOURCES=["app.js","cache-test.html","index.html","payloads/payload.elf","placeholder.txt","slopkit/README.md","slopkit/document/en/ps5/index.html","slopkit/index.html","slopkit/offsets/10.00.js","slopkit/offsets/10.01.js","slopkit/offsets/10.20.js","slopkit/offsets/10.40.js","slopkit/offsets/10.60.js","slopkit/offsets/11.00.js","slopkit/offsets/11.20.js","slopkit/offsets/11.40.js","slopkit/offsets/11.60.js","slopkit/offsets/12.00.js","slopkit/offsets/9.00.js","slopkit/offsets/9.05.js","slopkit/offsets/9.20.js","slopkit/offsets/9.40.js","slopkit/offsets/9.60.js","slopkit/payloads/elfldr-ps5-1360.elf","slopkit/payloads/kexp_2026_05_25.bin","slopkit/slopkit/cat.jpg","slopkit/slopkit/core.js","slopkit/slopkit/core.js?v=10","slopkit/slopkit/int64.js","slopkit/slopkit/main.js","slopkit/slopkit/main.js?v=19","slopkit/slopkit/mem.js","slopkit/slopkit/poops.html","slopkit/slopkit/poops.html?go=1&auto=1&production=1&trigger=netcontrol&attempts=8&only=ps0_preflight,ps1_prepare,ps3_stage0,ps4_validate,ps5_stage1,ps6_stage2,ps8_stage3,ps9_stage4,ps10_stage5&log=debug&payload=1&autoload=payload.elf&v=41","slopkit/slopkit/poops.js","slopkit/slopkit/poops.js?v=37","slopkit/slopkit/rop.js","slopkit/slopkit/rop_slave.js","slopkit/slopkit/syscalls.js","slopkit/ui/payload-ftp-default.png","slopkit/ui/payload-ftp-failed.png","slopkit/ui/payload-ftp-sending.png","slopkit/ui/payload-ftp-sent.png","slopkit/ui/payload-gdb-default.png","slopkit/ui/payload-gdb-failed.png","slopkit/ui/payload-gdb-sending.png","slopkit/ui/payload-gdb-sent.png","slopkit/ui/payload-klog-default.png","slopkit/ui/payload-klog-failed.png","slopkit/ui/payload-klog-sending.png","slopkit/ui/payload-klog-sent.png","slopkit/ui/payload-kstuff-default.png","slopkit/ui/payload-kstuff-failed.png","slopkit/ui/payload-kstuff-sending.png","slopkit/ui/payload-kstuff-sent.png","slopkit/ui/payload-menu-title.png","slopkit/ui/payload-plk-default.png","slopkit/ui/payload-plk-failed.png","slopkit/ui/payload-plk-sending.png","slopkit/ui/payload-plk-sent.png","slopkit/ui/payload-shell-default.png","slopkit/ui/payload-shell-failed.png","slopkit/ui/payload-shell-sending.png","slopkit/ui/payload-shell-sent.png","slopkit/ui/payload-web-default.png","slopkit/ui/payload-web-failed.png","slopkit/ui/payload-web-sending.png","slopkit/ui/payload-web-sent.png","style.css"];
-var overlay,title,status,bar,pct;
-
 function show(){
-  if(overlay)return;
-  var st=document.createElement("style");
-  st.id="ps5-visible-cache-style";
-  st.textContent="#ps5-cache-overlay{position:fixed;inset:0;z-index:2147483647;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif}#ps5-cache-box{width:82%;max-width:620px;text-align:center}#ps5-cache-title{font-size:30px;margin-bottom:14px}#ps5-cache-status{font-size:16px;opacity:.85;margin-bottom:22px}#ps5-cache-track{height:12px;background:#222;border-radius:8px;overflow:hidden}#ps5-cache-bar{height:100%;width:0%;background:#fff;transition:width .12s linear}#ps5-cache-pct{margin-top:12px;font-size:14px;opacity:.8}";
-  document.documentElement.appendChild(st);
-  overlay=document.createElement("div");
-  overlay.id="ps5-cache-overlay";
-  overlay.innerHTML='<div id="ps5-cache-box"><div id="ps5-cache-title">Creando cache...</div><div id="ps5-cache-status">Iniciando</div><div id="ps5-cache-track"><div id="ps5-cache-bar"></div></div><div id="ps5-cache-pct">0%</div></div>';
-  document.documentElement.appendChild(overlay);
-  title=document.getElementById("ps5-cache-title");
-  status=document.getElementById("ps5-cache-status");
-  bar=document.getElementById("ps5-cache-bar");
-  pct=document.getElementById("ps5-cache-pct");
+ var st=document.createElement("style");st.id="ps5-visible-cache-style";
+ st.textContent="#ps5-cache-overlay{position:fixed;inset:0;z-index:2147483647;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif}#ps5-cache-box{width:82%;max-width:620px;text-align:center}#ps5-cache-title{font-size:30px;margin-bottom:14px}#ps5-cache-status{font-size:16px;opacity:.85;margin-bottom:22px}#ps5-cache-track{height:12px;background:#222;border-radius:8px;overflow:hidden}#ps5-cache-bar{height:100%;width:0%;background:#fff;transition:width .12s linear}#ps5-cache-pct{margin-top:12px;font-size:14px;opacity:.8}";
+ document.documentElement.appendChild(st);
+ overlay=document.createElement("div");overlay.id="ps5-cache-overlay";
+ overlay.innerHTML='<div id="ps5-cache-box"><div id="ps5-cache-title">Creando cache...</div><div id="ps5-cache-status">Preparando recursos</div><div id="ps5-cache-track"><div id="ps5-cache-bar"></div></div><div id="ps5-cache-pct">0%</div></div>';
+ document.documentElement.appendChild(overlay);
+ title=document.getElementById("ps5-cache-title");status=document.getElementById("ps5-cache-status");bar=document.getElementById("ps5-cache-bar");pct=document.getElementById("ps5-cache-pct");
 }
 function progress(n,t){bar.style.width=n+"%";pct.textContent=Math.round(n)+"%";status.textContent=t}
 function closeUI(){if(overlay)overlay.remove();var s=document.getElementById("ps5-visible-cache-style");if(s)s.remove();overlay=null}
-function marked(){try{return localStorage.getItem(READY)==="1"}catch(e){return false}}
-function finish(){
-  try{localStorage.setItem(READY,"1")}catch(e){}
-  progress(100,"Todos los recursos están guardados");
-  title.textContent="Cache terminada";
-  setTimeout(closeUI,900);
-}
 async function build(){
-  show();
-
-  // Offline: never attempt a rebuild. The installed Service Worker handles it.
-  if(navigator.onLine===false){
-    if(navigator.serviceWorker && navigator.serviceWorker.controller) closeUI();
-    else closeUI();
-    return;
-  }
-
-  // If this exact cache was already completed, do not rebuild it.
-  if(marked()){ closeUI(); return; }
-
-  if(!("caches" in window)){
-    status.textContent="Cache Storage no disponible";
-    setTimeout(closeUI,1200);
-    return;
-  }
-
-  var cache=await caches.open(CACHE_NAME);
-  var total=RESOURCES.length;
-  var done=0;
-
-  progress(0,"Preparando "+total+" recursos...");
-
-  for(var i=0;i<total;i++){
-    var path=RESOURCES[i];
-    var url=new URL(path,location.href).href;
-    try{
-      // Cache the exact URL, including query strings.
-      var hit=await cache.match(url);
-      if(!hit){
-        var response=await fetch(url,{cache:"reload"});
-        if(response.ok) await cache.put(url,response.clone());
-      }
-    }catch(e){}
-
-    done++;
-    progress((done/total)*100,"Guardando recurso "+done+" de "+total);
-    // Yield so the progress display actually paints on WebKit.
-    await new Promise(function(r){setTimeout(r,0)});
-  }
-
-  finish();
+ if(navigator.onLine===false){closeUI();return;}
+ show();var cache=await caches.open(CACHE_NAME),total=RESOURCES.length;
+ progress(0,"Actualizando cache: "+total+" recursos...");
+ for(var i=0;i<RESOURCES.length;i++){
+  var url=new URL(RESOURCES[i],location.href).href;
+  try{await cache.delete(url);var r=await fetch(url,{cache:"no-store"});if(r.ok)await cache.put(url,r.clone())}catch(e){}
+  progress(((i+1)/total)*100,"Guardando recurso "+(i+1)+" de "+total);
+  await new Promise(function(r){setTimeout(r,0)})
+ }
+ progress(100,"Todos los recursos están guardados");title.textContent="Cache terminada";
+ setTimeout(closeUI,900)
 }
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",build);
-else build();
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",build);else build();
 })();
 </script>
 
