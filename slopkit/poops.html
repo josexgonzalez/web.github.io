@@ -244,7 +244,7 @@ const CORE_OVERRIDE = Q.has("core") ? parseInt(Q.get("core"), 10) : -1;
 const PROGRESS_KEY = "slopkit-poops:next";
 const RUNLOG_KEY = "slopkit-poops:last";
 const ROUTE_VERSION = "41";
-const REV = "slopkit-poops-52-host-auto-guard";
+const REV = "slopkit-poops-52-host-auto";
 const STAGE5_ONLY = "ps0_preflight,ps1_prepare,ps3_stage0,ps4_validate,"
     + "ps5_stage1,ps6_stage2,ps8_stage3,ps9_stage4,ps10_stage5";
 const STAGE5_FIRMWARES = Object.freeze([
@@ -257,21 +257,6 @@ function storeGet(k) {
 }
 function storeSet(k, v) { try { sessionStorage.setItem(k, v); } catch { } }
 function storeDel(k) { try { sessionStorage.removeItem(k); } catch { } }
-function durableGet(k) {
-    try {
-        const value = localStorage.getItem(k);
-        if (value) return value;
-    } catch { }
-    return storeGet(k);
-}
-function durableSet(k, v) {
-    try { localStorage.setItem(k, v); } catch { }
-    storeSet(k, v);
-}
-function durableDel(k) {
-    try { localStorage.removeItem(k); } catch { }
-    storeDel(k);
-}
 function consumeStored(k) {
     try {
         sessionStorage.removeItem(k);
@@ -483,30 +468,30 @@ function flushMark(tag, extra) {
 parentBridge("POOPS-BOOT", "rev=" + REV);
 
 const LATCH_KEY = "slopkit-poops:latch";
-let latchState = durableGet(LATCH_KEY) ? "held" : "clear";
+let latchState = storeGet(LATCH_KEY) ? "held" : "clear";
 const latch = {
     async read() {
-        const detail = durableGet(LATCH_KEY);
+        const detail = storeGet(LATCH_KEY);
         latchState = detail ? "held" : "clear";
         return { set: detail ? 1 : 0, detail };
     },
     async set(detail) {
         const d = clean(detail);
         flushMark("LATCH-SET", d);
-        durableSet(LATCH_KEY, d || "set");
+        storeSet(LATCH_KEY, d || "set");
         latchState = "held";
         return { set: 1, detail: d };
     },
     async escalate(detail) {
         const d = clean(detail);
         flushMark("LATCH-ESCALATE", d);
-        durableSet(LATCH_KEY, d || "escalated");
+        storeSet(LATCH_KEY, d || "escalated");
         latchState = "held";
         return { set: 1, detail: d };
     },
     async clear() {
         flushMark("LATCH-CLEAR", "operator-request");
-        durableDel(LATCH_KEY);
+        storeDel(LATCH_KEY);
         latchState = "clear";
         return { set: 0, detail: "" };
     }
@@ -1749,14 +1734,16 @@ function lastRunText() {
     if (PRODUCTION_RUN) {
         const runlogCleared = consumeStored(RUNLOG_KEY);
         const progressCleared = consumeStored(PROGRESS_KEY);
-        if (!runlogCleared || !progressCleared) {
+        const latchCleared = consumeStored(LATCH_KEY);
+        if (!runlogCleared || !progressCleared || !latchCleared) {
             stage("Production run refused: stale state could not be cleared", "bad");
             flushMark("POOPS-PRODUCTION-REFUSED", "stale-state-clear-unverified");
             return;
         }
         LAST_RUN = null;
         STALLED_AT = "";
-        flushMark("PRODUCTION-FRESH-STATE", "stale-run-progress-cleared=1");
+        latchState = "clear";
+        flushMark("PRODUCTION-FRESH-BOOT-ASSERTED", "stale-state-cleared=1");
     }
 
     stage("checking the one-shot safety latch");
@@ -1764,8 +1751,8 @@ function lastRunText() {
     flushMark("LATCH-READ", "set=" + (l.set ? 1 : 0)
         + "-detail=" + clean(l.detail || ""));
 
-    // Outside production mode, ?auto=1 keeps the previous latch behavior.
-    if (l.set && AUTOCLEAR && !PRODUCTION_RUN) {
+    // ?auto=1 clears the latch instead of asking; reboot between runs
+    if (l.set && AUTOCLEAR) {
         flushMark("LATCH-AUTOCLEAR", clean(l.detail || ""));
         await latch.clear();
         stage("latch was set and ?auto=1 cleared it, set by: "
