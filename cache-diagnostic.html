@@ -1,12 +1,9 @@
 <!doctype html><meta charset="utf-8"><title>Cache diagnostic</title>
 <style>body{background:#000;color:#fff;font:16px Arial;padding:24px}li{margin:10px 0}.ok{color:#8f8}.bad{color:#f88}</style>
-<h1>Diagnóstico de caché</h1><ul id=r></ul>
-<script>
+<h1>Diagnóstico de caché</h1><ul id=r></ul><script>
 const r=document.getElementById("r");
-function add(n,v,ok){let x=document.createElement("li");x.className=ok?"ok":"bad";x.textContent=n+": "+v;r.appendChild(x)}
-add("Online",navigator.onLine,true);
-add("Cache Storage","caches" in window,"caches" in window);
-add("Service Worker","serviceWorker" in navigator,"serviceWorker" in navigator);
-if("serviceWorker" in navigator) navigator.serviceWorker.getRegistration().then(x=>add("Registro",!!x,!!x));
-if("caches" in window)caches.open("app-incremental-cache-v1").then(async c=>add("Recursos almacenados",(await c.keys()).length,true)).catch(e=>add("Cache",e,false));
+function a(n,v,o){let x=document.createElement("li");x.className=o?"ok":"bad";x.textContent=n+": "+v;r.appendChild(x)}
+a("Online",navigator.onLine,true);a("AppCache","applicationCache" in window,"applicationCache" in window);
+a("Cache Storage","caches" in window,"caches" in window);a("IndexedDB","indexedDB" in window,"indexedDB" in window);a("Service Worker","serviceWorker" in navigator,"serviceWorker" in navigator);
+if("caches"in window)caches.open("app-full-hybrid-v1").then(async c=>a("Entradas",(await c.keys()).length,true));
 </script>
