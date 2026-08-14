@@ -1,15 +1,12 @@
-<!doctype html>
-<html><head><meta charset="utf-8"><title>PS5 cache diagnostic</title>
+<!doctype html><meta charset="utf-8"><title>Cache diagnostic</title>
 <style>body{background:#000;color:#fff;font:16px Arial;padding:24px}li{margin:10px 0}.ok{color:#8f8}.bad{color:#f88}</style>
-</head><body><h1>Cache diagnostic</h1><ul id="r"></ul>
+<h1>Diagnóstico de caché</h1><ul id=r></ul>
 <script>
 const r=document.getElementById("r");
-function row(name,value,ok){const li=document.createElement("li");li.className=ok?"ok":"bad";li.textContent=name+": "+value;r.appendChild(li)}
-row("navigator.onLine",navigator.onLine, true);
-row("Cache Storage", "caches" in window, "caches" in window);
-row("Service Worker API", "serviceWorker" in navigator, "serviceWorker" in navigator);
-if("caches" in window){caches.open("ps5-hybrid-cache-v1").then(async c=>{
-  row("Cache abierta",true,true);
-  row("Entradas guardadas", (await c.keys()).length, true);
-}).catch(e=>row("Cache abierta",false,false))}
-</script></body></html>
+function add(n,v,ok){let x=document.createElement("li");x.className=ok?"ok":"bad";x.textContent=n+": "+v;r.appendChild(x)}
+add("Online",navigator.onLine,true);
+add("Cache Storage","caches" in window,"caches" in window);
+add("Service Worker","serviceWorker" in navigator,"serviceWorker" in navigator);
+if("serviceWorker" in navigator) navigator.serviceWorker.getRegistration().then(x=>add("Registro",!!x,!!x));
+if("caches" in window)caches.open("app-incremental-cache-v1").then(async c=>add("Recursos almacenados",(await c.keys()).length,true)).catch(e=>add("Cache",e,false));
+</script>
