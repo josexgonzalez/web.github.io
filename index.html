@@ -40,18 +40,11 @@
             font-size: 14px;
         }
 
-        iframe {
+        object {
             width: 100%;
             height: calc(100% - 35px);
-            border: 0;
             display: block;
-        }
-
-        .enlace {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            color: white;
+            border: 0;
         }
     </style>
 </head>
@@ -64,16 +57,12 @@
             Aplicación local
         </div>
 
-        <iframe
-            src="http://127.0.0.1:18181/app/index.html">
-        </iframe>
+        <object
+            data="http://127.0.0.1:18181/app/index.html"
+            type="text/html">
+        </object>
 
     </div>
-
-    <a class="enlace"
-       href="http://127.0.0.1:18181/app/index.html">
-       Abrir directamente
-    </a>
 
 </body>
 </html>
