@@ -24,17 +24,52 @@ function show(){
 function progress(n,t){bar.style.width=n+"%";pct.textContent=Math.round(n)+"%";status.textContent=t}
 function closeUI(){if(overlay)overlay.remove();var s=document.getElementById("ps5-visible-cache-style");if(s)s.remove();overlay=null}
 async function build(){
- if(navigator.onLine===false){closeUI();return;}
- show();var cache=await caches.open(CACHE_NAME),total=RESOURCES.length;
- progress(0,"Actualizando cache: "+total+" recursos...");
- for(var i=0;i<RESOURCES.length;i++){
-  var url=new URL(RESOURCES[i],location.href).href;
-  try{await cache.delete(url);var r=await fetch(url,{cache:"no-store"});if(r.ok)await cache.put(url,r.clone())}catch(e){}
-  progress(((i+1)/total)*100,"Guardando recurso "+(i+1)+" de "+total);
-  await new Promise(function(r){setTimeout(r,0)})
- }
- progress(100,"Todos los recursos están guardados");title.textContent="Cache terminada";
- setTimeout(closeUI,900)
+    var cache = await caches.open(CACHE_NAME);
+    var existing = await cache.keys();
+
+    // Offline: usar la caché existente
+    if (navigator.onLine === false) {
+        if (existing.length > 0) {
+            closeUI();
+            return;
+        }
+
+        show();
+        status.textContent = "Sin conexión y sin cache disponible";
+        return;
+    }
+
+    // Online: crear/actualizar cache
+    show();
+
+    var total = RESOURCES.length;
+    progress(0, "Comprobando cache...");
+
+    for (var i = 0; i < RESOURCES.length; i++) {
+        var url = new URL(RESOURCES[i], location.href).href;
+        var cached = await cache.match(url);
+
+        if (!cached) {
+            try {
+                var r = await fetch(url, {cache:"no-store"});
+                if (r.ok) {
+                    await cache.put(url, r.clone());
+                }
+            } catch(e) {}
+        }
+
+        progress(
+            ((i + 1) / total) * 100,
+            "Comprobando recurso " + (i + 1) + " de " + total
+        );
+
+        await new Promise(function(r){setTimeout(r,0)});
+    }
+
+    progress(100, "Todos los recursos están guardados");
+    title.textContent = "Cache terminada";
+
+    setTimeout(closeUI, 900);
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",build);else build();
 })();
