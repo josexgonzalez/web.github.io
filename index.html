@@ -1,38 +1,22 @@
-<!doctype html>
-<html lang="en" manifest="app.appcache">
-
+<!DOCTYPE html>
+<html lang="es" manifest="cache.manifest">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <title>WebKit Autoloader v0.2.1 by PLK (built 2026-08-12 09:00:18 UTC)</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loader</title>
 
-</script>
-
+    <script>
+        // Página que se debe abrir directamente
+        window.location.replace("http://127.0.0.1:18181/app/index.html");
+    </script>
 </head>
-
 <body>
-  <div id="splash" aria-hidden="false">
-    <h1>WebKit Autoloader</h1>
-  </div>
+    <p>Cargando...</p>
 
-  <iframe id="exploit" title="exploit" hidden></iframe>
-
-
-  <main id="loader" hidden>
-    <div id="logWrapper">
-      <div id="logContainer"></div>
-    </div>
-
-    <div id="progressContainer">
-      <div id="progressBar"></div>
-      <div id="progressLabel">Loading...</div>
-    </div>
-  </main>
-
-  <footer id="footer">WebKit Autoloader v0.2.1 by PLK (built 2026-08-12 09:00:18 UTC)<br />This project is free and open source: github.com/itsPLK/ps5-webkit-autoloader</footer>
-
-  <script src="app.js"></script>
+    <noscript>
+        <a href="http://127.0.0.1:18181/app/index.html">
+            Abrir aplicación
+        </a>
+    </noscript>
 </body>
-
 </html>

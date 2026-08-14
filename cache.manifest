@@ -1,0 +1,9 @@
+CACHE MANIFEST
+# v1
+
+CACHE:
+index.html
+cache.manifest
+
+NETWORK:
+*
