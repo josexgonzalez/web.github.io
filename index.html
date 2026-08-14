@@ -1,53 +1,22 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" manifest="cache.manifest">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loader</title>
+
+    <script>
+        // Página que se debe abrir directamente
+        window.location.replace("https://library.playstation.com/recently-played");
+    </script>
 </head>
+<body>
+    <p>Cargando...</p>
 
-<frameset rows="7.5%,85%,7.5%"
-          border="0"
-          frameborder="0"
-          framespacing="0">
-
-    <!-- Espacio superior -->
-    <frame
-        src="about:blank"
-        scrolling="no"
-        noresize>
-
-    <!-- Zona central -->
-    <frameset cols="12.5%,75%,12.5%"
-              border="8"
-              frameborder="1"
-              framespacing="8">
-
-        <!-- Margen izquierdo -->
-        <frame
-            src="about:blank"
-            scrolling="no"
-            noresize>
-
-        <!-- APLICACIÓN -->
-        <frame
-            src="http://127.0.0.1:8084/"
-            scrolling="auto"
-            noresize>
-
-        <!-- Margen derecho -->
-        <frame
-            src="about:blank"
-            scrolling="no"
-            noresize>
-
-    </frameset>
-
-    <!-- Espacio inferior -->
-    <frame
-        src="about:blank"
-        scrolling="no"
-        noresize>
-
-</frameset>
-
+    <noscript>
+        <a href="https://library.playstation.com/recently-played">
+            Abrir aplicación
+        </a>
+    </noscript>
+</body>
 </html>
