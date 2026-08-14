@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" manifest="appcache.manifest">
+<html lang="en">
 
 <head>
   <meta charset="utf-8" />
@@ -7,192 +7,126 @@
   <link rel="stylesheet" href="style.css" />
   <title>WebKit Autoloader v0.2.1 by PLK (built 2026-08-12 09:00:18 UTC)</title>
 
-<script id="ps5-visible-cache-controller">
+<script id="ps5-hybrid-cache-controller">
 (function(){
 "use strict";
-var CACHE_NAME="ps5-offline-v10-20-visible",overlay,title,status,bar,pct;
+var CACHE="ps5-hybrid-cache-v1";
+var READY="PS5_HYBRID_CACHE_READY_V1";
 var RESOURCES=["app.js","cache-test.html","index.html","payloads/payload.elf","placeholder.txt","slopkit/README.md","slopkit/document/en/ps5/index.html","slopkit/index.html","slopkit/offsets/10.00.js","slopkit/offsets/10.01.js","slopkit/offsets/10.20.js","slopkit/offsets/10.40.js","slopkit/offsets/10.60.js","slopkit/offsets/11.00.js","slopkit/offsets/11.20.js","slopkit/offsets/11.40.js","slopkit/offsets/11.60.js","slopkit/offsets/12.00.js","slopkit/offsets/9.00.js","slopkit/offsets/9.05.js","slopkit/offsets/9.20.js","slopkit/offsets/9.40.js","slopkit/offsets/9.60.js","slopkit/payloads/elfldr-ps5-1360.elf","slopkit/payloads/kexp_2026_05_25.bin","slopkit/slopkit/cat.jpg","slopkit/slopkit/core.js","slopkit/slopkit/core.js?v=10","slopkit/slopkit/int64.js","slopkit/slopkit/main.js","slopkit/slopkit/main.js?v=19","slopkit/slopkit/mem.js","slopkit/slopkit/poops.html","slopkit/slopkit/poops.html?go=1&auto=1&production=1&trigger=netcontrol&attempts=8&only=ps0_preflight,ps1_prepare,ps3_stage0,ps4_validate,ps5_stage1,ps6_stage2,ps8_stage3,ps9_stage4,ps10_stage5&log=debug&payload=1&autoload=payload.elf&v=41","slopkit/slopkit/poops.js","slopkit/slopkit/poops.js?v=37","slopkit/slopkit/rop.js","slopkit/slopkit/rop_slave.js","slopkit/slopkit/syscalls.js","slopkit/ui/payload-ftp-default.png","slopkit/ui/payload-ftp-failed.png","slopkit/ui/payload-ftp-sending.png","slopkit/ui/payload-ftp-sent.png","slopkit/ui/payload-gdb-default.png","slopkit/ui/payload-gdb-failed.png","slopkit/ui/payload-gdb-sending.png","slopkit/ui/payload-gdb-sent.png","slopkit/ui/payload-klog-default.png","slopkit/ui/payload-klog-failed.png","slopkit/ui/payload-klog-sending.png","slopkit/ui/payload-klog-sent.png","slopkit/ui/payload-kstuff-default.png","slopkit/ui/payload-kstuff-failed.png","slopkit/ui/payload-kstuff-sending.png","slopkit/ui/payload-kstuff-sent.png","slopkit/ui/payload-menu-title.png","slopkit/ui/payload-plk-default.png","slopkit/ui/payload-plk-failed.png","slopkit/ui/payload-plk-sending.png","slopkit/ui/payload-plk-sent.png","slopkit/ui/payload-shell-default.png","slopkit/ui/payload-shell-failed.png","slopkit/ui/payload-shell-sending.png","slopkit/ui/payload-shell-sent.png","slopkit/ui/payload-web-default.png","slopkit/ui/payload-web-failed.png","slopkit/ui/payload-web-sending.png","slopkit/ui/payload-web-sent.png","style.css"];
+var ui,title,status,bar,pct;
+
 function show(){
- var st=document.createElement("style");st.id="ps5-visible-cache-style";
- st.textContent="#ps5-cache-overlay{position:fixed;inset:0;z-index:2147483647;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif}#ps5-cache-box{width:82%;max-width:620px;text-align:center}#ps5-cache-title{font-size:30px;margin-bottom:14px}#ps5-cache-status{font-size:16px;opacity:.85;margin-bottom:22px}#ps5-cache-track{height:12px;background:#222;border-radius:8px;overflow:hidden}#ps5-cache-bar{height:100%;width:0%;background:#fff;transition:width .12s linear}#ps5-cache-pct{margin-top:12px;font-size:14px;opacity:.8}";
- document.documentElement.appendChild(st);
- overlay=document.createElement("div");overlay.id="ps5-cache-overlay";
- overlay.innerHTML='<div id="ps5-cache-box"><div id="ps5-cache-title">Creando cache...</div><div id="ps5-cache-status">Preparando recursos</div><div id="ps5-cache-track"><div id="ps5-cache-bar"></div></div><div id="ps5-cache-pct">0%</div></div>';
- document.documentElement.appendChild(overlay);
- title=document.getElementById("ps5-cache-title");status=document.getElementById("ps5-cache-status");bar=document.getElementById("ps5-cache-bar");pct=document.getElementById("ps5-cache-pct");
+  var st=document.createElement("style");
+  st.id="ps5-hybrid-style";
+  st.textContent=
+    "#ps5-hybrid-overlay{position:fixed;inset:0;z-index:2147483647;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif}" +
+    "#ps5-hybrid-box{width:min(620px,82vw);text-align:center}" +
+    "#ps5-hybrid-title{font-size:30px;margin-bottom:14px}" +
+    "#ps5-hybrid-status{font-size:16px;opacity:.85;margin-bottom:20px}" +
+    "#ps5-hybrid-track{height:12px;background:#222;border-radius:8px;overflow:hidden}" +
+    "#ps5-hybrid-bar{height:100%;width:0%;background:#fff;transition:width .12s linear}" +
+    "#ps5-hybrid-pct{margin-top:10px;font-size:14px;opacity:.8}" +
+    "#ps5-hybrid-check{margin-top:14px;font-size:13px;opacity:.7}";
+  document.documentElement.appendChild(st);
+  ui=document.createElement("div");
+  ui.id="ps5-hybrid-overlay";
+  ui.innerHTML='<div id="ps5-hybrid-box"><div id="ps5-hybrid-title">Creando cache...</div><div id="ps5-hybrid-status">Preparando</div><div id="ps5-hybrid-track"><div id="ps5-hybrid-bar"></div></div><div id="ps5-hybrid-pct">0%</div><div id="ps5-hybrid-check"></div></div>';
+  document.documentElement.appendChild(ui);
+  title=document.getElementById("ps5-hybrid-title");
+  status=document.getElementById("ps5-hybrid-status");
+  bar=document.getElementById("ps5-hybrid-bar");
+  pct=document.getElementById("ps5-hybrid-pct");
 }
-function progress(n,t){bar.style.width=n+"%";pct.textContent=Math.round(n)+"%";status.textContent=t}
-function closeUI(){if(overlay)overlay.remove();var s=document.getElementById("ps5-visible-cache-style");if(s)s.remove();overlay=null}
-async function build(){
-    var cache = await caches.open(CACHE_NAME);
-    var existing = await cache.keys();
-
-    // Offline: usar la caché existente
-    if (navigator.onLine === false) {
-        if (existing.length > 0) {
-            closeUI();
-            return;
-        }
-
-        show();
-        status.textContent = "Sin conexión y sin cache disponible";
-        return;
-    }
-
-    // Online: crear/actualizar cache
-    show();
-
-    var total = RESOURCES.length;
-    progress(0, "Comprobando cache...");
-
-    for (var i = 0; i < RESOURCES.length; i++) {
-        var url = new URL(RESOURCES[i], location.href).href;
-        var cached = await cache.match(url);
-
-        if (!cached) {
-            try {
-                var r = await fetch(url, {cache:"no-store"});
-                if (r.ok) {
-                    await cache.put(url, r.clone());
-                }
-            } catch(e) {}
-        }
-
-        progress(
-            ((i + 1) / total) * 100,
-            "Comprobando recurso " + (i + 1) + " de " + total
-        );
-
-        await new Promise(function(r){setTimeout(r,0)});
-    }
-
-    progress(100, "Todos los recursos están guardados");
-    title.textContent = "Cache terminada";
-
-    setTimeout(closeUI, 900);
+function progress(n,t){
+  bar.style.width=n+"%"; pct.textContent=Math.round(n)+"%"; status.textContent=t;
 }
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",build);else build();
-})();
-</script>
-<script id="appcache-indexeddb-controller">
-(function(){
-"use strict";
-var DB_NAME="AppCacheState",DB_VERSION=1,STORE="meta";
-var overlay,title,status,bar,pct,detail;
+function closeUI(){
+  if(ui)ui.remove();
+  var s=document.getElementById("ps5-hybrid-style"); if(s)s.remove();
+}
+function mark(){
+  try{localStorage.setItem(READY,"1")}catch(e){}
+}
+function alreadyReady(){
+  try{return localStorage.getItem(READY)==="1"}catch(e){return false}
+}
 
-function ui(){
- var st=document.createElement("style");st.id="appcache-ui-style";
- st.textContent="#appcache-ui{position:fixed;inset:0;z-index:2147483647;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif}#appcache-box{width:min(640px,84vw);text-align:center}#appcache-title{font-size:30px;margin-bottom:14px}#appcache-status{font-size:16px;opacity:.85;margin-bottom:20px}#appcache-track{height:12px;background:#222;border-radius:8px;overflow:hidden}#appcache-bar{height:100%;width:0%;background:#fff;transition:width .12s linear}#appcache-pct{margin-top:10px;font-size:14px;opacity:.8}#appcache-detail{margin-top:12px;font-size:13px;opacity:.7}";
- document.documentElement.appendChild(st);
- overlay=document.createElement("div");overlay.id="appcache-ui";
- overlay.innerHTML='<div id="appcache-box"><div id="appcache-title">Creando cache...</div><div id="appcache-status">Preparando</div><div id="appcache-track"><div id="appcache-bar"></div></div><div id="appcache-pct">0%</div><div id="appcache-detail"></div></div>';
- document.documentElement.appendChild(overlay);
- title=document.getElementById("appcache-title");status=document.getElementById("appcache-status");bar=document.getElementById("appcache-bar");pct=document.getElementById("appcache-pct");detail=document.getElementById("appcache-detail");
-}
-function p(n,s,d){bar.style.width=n+"%";pct.textContent=Math.round(n)+"%";status.textContent=s;detail.textContent=d||""}
-function close(){if(overlay)overlay.remove();var s=document.getElementById("appcache-ui-style");if(s)s.remove()}
-function db(){
- return new Promise(function(resolve){
-  if(!window.indexedDB)return resolve(null);
-  var r=indexedDB.open(DB_NAME,DB_VERSION);
-  r.onupgradeneeded=function(){r.result.createObjectStore(STORE)};
-  r.onsuccess=function(){resolve(r.result)};
-  r.onerror=function(){resolve(null)}
- })
-}
-function get(db,key){
- return new Promise(function(resolve){
-  if(!db)return resolve(null);
-  try{var q=db.transaction(STORE,"readonly").objectStore(STORE).get(key);q.onsuccess=function(){resolve(q.result||null)};q.onerror=function(){resolve(null)}}catch(e){resolve(null)}
- })
-}
-function put(db,key,val){
- if(!db)return;
- try{db.transaction(STORE,"readwrite").objectStore(STORE).put(val,key)}catch(e){}
+async function verify(cache){
+  var missing=[];
+  for(var i=0;i<RESOURCES.length;i++){
+    var url=new URL(RESOURCES[i],location.href).href;
+    if(!(await cache.match(url))) missing.push(RESOURCES[i]);
+  }
+  return missing;
 }
 
 async function run(){
- // AppCache itself is the offline delivery mechanism. Never rebuild offline.
- if(navigator.onLine===false){close();return}
- ui();
+  // Offline: never rebuild. The existing cache is the only source.
+  if(navigator.onLine===false){
+    closeUI();
+    return;
+  }
 
- var appcache=("applicationCache" in window);
- var idb=await db();
- p(2,"Comprobando compatibilidad...",
-   "AppCache: "+(appcache?"disponible":"no disponible")+" · IndexedDB: "+(idb?"disponible":"no disponible"));
+  show();
 
- if(!appcache){
-  title.textContent="AppCache no disponible";
-  status.textContent="Este WebKit no permite caché offline mediante AppCache";
-  return;
- }
+  var swOK=("serviceWorker" in navigator);
+  document.getElementById("ps5-hybrid-check").textContent=
+    "Cache Storage: comprobando · Service Worker: "+(swOK?"disponible":"no disponible");
 
- var mf;
- try{mf=await fetch("cache-manifest.json",{cache:"no-store"}).then(function(r){if(!r.ok)throw Error("HTTP "+r.status);return r.json()})}
- catch(e){
-  title.textContent="No se pudo leer el manifiesto";
-  status.textContent=String(e.message||e);return
- }
+  if(!("caches" in window)){
+    title.textContent="Cache no disponible";
+    status.textContent="Cache Storage no está disponible en este WebKit";
+    return;
+  }
 
- var previous=await get(idb,"manifest");
- var oldVersion=previous&&previous.version;
- p(10,"Analizando recursos...",mf.resources.length+" recursos · versión "+mf.version);
+  var cache=await caches.open(CACHE);
 
- // AppCache downloads according to its manifest. We cannot directly control
- // its internal download progress, so we use its real lifecycle events.
- var ac=window.applicationCache;
- var done=false;
+  // Always refresh while online.
+  var total=RESOURCES.length;
+  var failures=0;
 
- function finish(text){
-   if(done)return; done=true;
-   put(idb,"manifest",{version:mf.version,time:Date.now(),resources:mf.resources});
-   p(100,text,"Versión "+mf.version);
-   title.textContent="Cache terminada";
-   status.textContent="AppCache preparada para uso offline";
-   setTimeout(close,900);
- }
+  for(var i=0;i<total;i++){
+    var item=RESOURCES[i];
+    var url=new URL(item,location.href).href;
+    try{
+      await cache.delete(url);
+      var r=await fetch(url,{cache:"no-store"});
+      if(!r.ok) throw new Error("HTTP "+r.status);
+      await cache.put(url,r.clone());
+    }catch(e){
+      failures++;
+    }
+    progress(((i+1)/total)*85,"Guardando recurso "+(i+1)+" de "+total);
+    await new Promise(function(r){setTimeout(r,0)});
+  }
 
- function failed(text){
-   if(done)return; done=true;
-   title.textContent="Cache incompleta";
-   status.textContent=text;
-   detail.textContent="No se marcará como terminada.";
- }
+  progress(88,"Comprobando cache...");
+  var missing=await verify(cache);
 
- ac.addEventListener("checking",function(){p(15,"Comprobando cache...","Verificando manifiesto")},false);
- ac.addEventListener("downloading",function(){p(30,"Creando cache...","Descargando recursos del manifiesto")},false);
- ac.addEventListener("progress",function(e){
-   if(e.lengthComputable){
-     var n=30+(e.loaded/e.total)*55;
-     p(n,"Creando cache...",e.loaded+" de "+e.total+" recursos");
-   }else p(50,"Creando cache...","Descargando recursos");
- },false);
- ac.addEventListener("cached",function(){finish("Cache terminada")},false);
- ac.addEventListener("noupdate",function(){finish("Cache ya estaba actualizada")},false);
- ac.addEventListener("updateready",function(){
-   p(90,"Actualizando cache...","Aplicando nueva versión");
-   try{ac.swapCache()}catch(e){}
-   finish("Cache terminada");
- },false);
- ac.addEventListener("error",function(){failed("AppCache informó un error")},false);
- ac.addEventListener("obsolete",function(){failed("La cache quedó obsoleta")},false);
-
- // If the manifest version is already known, AppCache can report noupdate.
- // The event listeners above are authoritative; IndexedDB only records state.
- p(20,"Creando cache...","Esperando al sistema offline del navegador");
-
- // Give the browser time to process applicationCache events.
- setTimeout(function(){
-   if(!done){
-     var s=ac.status;
-     if(s===window.applicationCache.UPDATEREADY){
-       try{ac.swapCache()}catch(e){}
-       finish("Cache terminada");
-     }
-   }
- },15000);
+  // A resource is considered complete only if it is actually present.
+  if(missing.length===0 && failures===0){
+    progress(94,"Verificando almacenamiento...");
+    if(swOK){
+      try{
+        await navigator.serviceWorker.register("sw.js",{scope:"./"});
+      }catch(e){}
+    }
+    mark();
+    progress(100,"Todos los recursos verificados");
+    title.textContent="Cache terminada";
+    status.textContent="Cache completa y lista para uso offline";
+    setTimeout(closeUI,1000);
+  }else{
+    title.textContent="Cache incompleta";
+    status.textContent="No se guardaron todos los recursos ("+missing.length+" faltantes)";
+    document.getElementById("ps5-hybrid-check").textContent=
+      "No se continuará como si la cache estuviera completa.";
+    // Do not mark READY. The next online launch retries.
+  }
 }
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",run);else run();
+
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",run);
+else run();
 })();
 </script>
 
