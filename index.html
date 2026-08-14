@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es" manifest="cache.manifest">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Loader</title>
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .contenedor {
+            width: calc(90% - 6cm);
+            height: 85%;
+            background: #000;
+            border: 3px solid #555;
+            border-radius: 10px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .titulo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 35px;
+            background: #222;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            box-sizing: border-box;
+            font-size: 14px;
+            z-index: 2;
+        }
+
+        iframe {
+            position: absolute;
+            top: 35px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 35px);
+            border: 0;
+            background: #000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="contenedor">
+
+        <div class="titulo">
+            Aplicación local
+        </div>
+
+        <iframe
+            src="http://127.0.0.1:18181/app/index.html"
+            title="Aplicación local">
+        </iframe>
+
+    </div>
+
+</body>
+</html>
