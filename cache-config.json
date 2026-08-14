@@ -1,7 +1,0 @@
-{
-  "cache": "Cache Storage + Service Worker fallback",
-  "mode_online": "refresh_and_verify",
-  "mode_offline": "serve_existing_cache",
-  "resource_count": 69,
-  "diagnostic": "cache-diagnostic.html"
-}
