@@ -1,7 +1,8 @@
 CACHE MANIFEST
-# version 3e9dd2215e856bf3
+# cache-version 871028b0db106ff3
 
 CACHE:
+cache-manifest.json
 app.appcache
 app.js
 cache-test.html

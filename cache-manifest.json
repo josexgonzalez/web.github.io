@@ -1,5 +1,5 @@
 {
-  "version": "3e9dd2215e856bf3",
+  "version": "871028b0db106ff3",
   "resources": [
     {
       "url": "app.appcache",
@@ -18,8 +18,8 @@
     },
     {
       "url": "index.html",
-      "sha256": "ccebaf988374ce0c83d45fff913486855b17bf11f7de53239103470642edf53b",
-      "bytes": 10567
+      "sha256": "37296b5aa2d2201c27a7f498a5eaf9e43e001c11a9fc3c86dda4843fc67604be",
+      "bytes": 11164
     },
     {
       "url": "payloads/payload.elf",
