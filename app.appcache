@@ -35,7 +35,6 @@ slopkit/slopkit/main.js
 slopkit/slopkit/main.js?v=19
 slopkit/slopkit/mem.js
 slopkit/slopkit/poops.html
-slopkit/slopkit/poops.html?go=1&auto=1&production=1&trigger=netcontrol&attempts=8&only=ps0_preflight,ps1_prepare,ps3_stage0,ps4_validate,ps5_stage1,ps6_stage2,ps8_stage3,ps9_stage4,ps10_stage5&log=debug&payload=1&autoload=payload.elf&v=41
 slopkit/slopkit/poops.js
 slopkit/slopkit/poops.js?v=37
 slopkit/slopkit/rop.js
