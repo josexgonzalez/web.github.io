@@ -1,68 +1,41 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Loader</title>
-
-    <style>
-        html, body {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            background: #111;
-        }
-
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .contenedor {
-            width: 75%;
-            height: 85%;
-            background: #000;
-            border: 3px solid #555;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .titulo {
-            width: 100%;
-            height: 35px;
-            background: #222;
-            color: white;
-            line-height: 35px;
-            padding-left: 15px;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-        }
-
-        object {
-            width: 100%;
-            height: calc(100% - 35px);
-            display: block;
-            border: 0;
-        }
-    </style>
 </head>
 
-<body>
+<frameset rows="7.5%,85%,7.5%" border="0" frameborder="0">
 
-    <div class="contenedor">
+    <frame
+        src="about:blank"
+        scrolling="no"
+        noresize>
 
-        <div class="titulo">
-            Aplicación local
-        </div>
+    <frameset cols="12.5%,75%,12.5%" border="0" frameborder="0">
 
-        <object
-            data="http://127.0.0.1:8084/"
-            type="text/html">
-        </object>
+        <frame
+            src="about:blank"
+            scrolling="no"
+            noresize>
 
-    </div>
+        <frame
+            src="http://127.0.0.1:8084/"
+            scrolling="auto"
+            noresize>
 
-</body>
+        <frame
+            src="about:blank"
+            scrolling="no"
+            noresize>
+
+    </frameset>
+
+    <frame
+        src="about:blank"
+        scrolling="no"
+        noresize>
+
+</frameset>
+
 </html>
