@@ -1,26 +1,22 @@
 <!DOCTYPE html>
-<html lang="es" manifest="cache.manifest">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Loader</title>
 
     <style>
-        html,
-        body {
+        html, body {
             width: 100%;
             height: 100%;
             margin: 0;
             padding: 0;
+            background: #111;
         }
 
         body {
-            background: #111;
             display: flex;
-            justify-content: center;
             align-items: center;
-            font-family: Arial, sans-serif;
+            justify-content: center;
         }
 
         .contenedor {
@@ -29,35 +25,33 @@
             background: #000;
             border: 3px solid #555;
             border-radius: 10px;
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
             overflow: hidden;
-            position: relative;
         }
 
         .titulo {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 35px;
             background: #222;
-            color: #fff;
-            display: flex;
-            align-items: center;
+            color: white;
+            line-height: 35px;
             padding-left: 15px;
             box-sizing: border-box;
+            font-family: Arial, sans-serif;
             font-size: 14px;
-            z-index: 2;
         }
 
         iframe {
-            position: absolute;
-            top: 35px;
-            left: 0;
             width: 100%;
             height: calc(100% - 35px);
             border: 0;
-            background: #000;
+            display: block;
+        }
+
+        .enlace {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            color: white;
         }
     </style>
 </head>
@@ -71,11 +65,15 @@
         </div>
 
         <iframe
-            src="https://x.com/TeRex777_"
-            title="Aplicación local">
+            src="http://127.0.0.1:18181/app/index.html">
         </iframe>
 
     </div>
+
+    <a class="enlace"
+       href="http://127.0.0.1:18181/app/index.html">
+       Abrir directamente
+    </a>
 
 </body>
 </html>
