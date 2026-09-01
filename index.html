@@ -3,12 +3,33 @@
 <html>
 <head>
   <meta charset="UTF-8">
+
+  <!-- Redirección HTML inmediata de respaldo -->
+  <meta http-equiv="refresh" content="0;url=http://127.0.0.1:8888/">
+
   <title>Redirect</title>
+
   <script>
-    window.location.replace("http://127.0.0.1:8888/");
+    "use strict";
+
+    // Intento 1: navegación inmediata
+    try {
+      window.location.replace("127.0.0.1:8888/");
+    } catch (e) {}
+
+    // Intento 2: location.href
+    try {
+      window.location.href = "127.0.0.1:8888/";
+    } catch (e) {}
+
+    // Intento 3: window.location
+    try {
+      window.location = "127.0.0.1:8888/";
+    } catch (e) {}
   </script>
 </head>
-<body>
+
+<body style="background:#000;margin:0;padding:0;">
 </body>
 </html>
 ```
