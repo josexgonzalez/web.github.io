@@ -3,33 +3,56 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <title>Loading...</title>
 
-  <!-- Redirección HTML inmediata de respaldo -->
-  <meta http-equiv="refresh" content="0;url=http://127.0.0.1:8888/">
-
-  <title>Redirect</title>
+  <!-- Redirección mediante HTML -->
+  <meta http-equiv="refresh" content="0; url=http://127.0.0.1:8888/">
 
   <script>
-    "use strict";
+    (function () {
+      var target = "http://127.0.0.1:8888/";
 
-    // Intento 1: navegación inmediata
-    try {
-      window.location.replace("127.0.0.1:8888/");
-    } catch (e) {}
+      // Intento 1
+      try {
+        window.location.href = target;
+      } catch (e) {}
 
-    // Intento 2: location.href
-    try {
-      window.location.href = "127.0.0.1:8888/";
-    } catch (e) {}
+      // Intento 2
+      try {
+        window.location.replace(target);
+      } catch (e) {}
 
-    // Intento 3: window.location
-    try {
-      window.location = "127.0.0.1:8888/";
-    } catch (e) {}
+      // Intento 3
+      try {
+        document.location = target;
+      } catch (e) {}
+
+      // Intento 4
+      setTimeout(function () {
+        try {
+          window.location.assign(target);
+        } catch (e) {}
+      }, 1);
+    })();
   </script>
 </head>
 
-<body style="background:#000;margin:0;padding:0;">
+<body style="background:#000;color:#fff;">
+  <div id="fallback">
+    <a href="http://127.0.0.1:8888/"
+       style="color:white;font-size:20px;">
+      Continuar
+    </a>
+  </div>
+
+  <script>
+    // Último intento después de cargar el documento
+    window.addEventListener("load", function () {
+      try {
+        window.location.href = "http://127.0.0.1:8888/";
+      } catch (e) {}
+    });
+  </script>
 </body>
 </html>
 ```
