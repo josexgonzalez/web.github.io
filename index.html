@@ -1,55 +1,14 @@
+```html
 <!doctype html>
 <html>
-  <head>
-    <link rel="icon" href="data:,">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.0.0/css/xterm.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/xterm@5.0.0/lib/xterm.min.js"></script>
-  </head>
-  <body id="terminal" bgcolor="black">
-    <script>
-      async function render_stdout(response) {
-      try {
-          const reader = response.body.getReader();
-          const decoder = new TextDecoder();
-
-          while (true) {
-          const { done, value } = await reader.read();
-          if (done) {
-              break;
-          }
-          let decodedValue = decoder.decode(value);
-          term.write(decodedValue);
-          }
-      } catch (error) {
-      }
-      }
-
-      async function deploy(host, uri, ...args) {
-      const params = new URLSearchParams({
-          uri: uri + '?args=' + args.join(' ')
-      });
-
-      let response = await fetch('http://' + host + ':9021?' + params);
-      if(!response.ok) {
-          return false;
-      }
-      render_stdout(response);
-      return true;
-      }
-
-      const term = new Terminal({
-      convertEol: true,
-      altClickMovesCursor: false,
-      disableStdin: true,
-      fontSize: 18,
-      cols: 90,
-      rows: 25
-      });
-      term.open(document.getElementById('terminal'));
-
-      deploy('127.0.0.1',
-         'https://github.com/ps5-payload-dev/ftpsrv/releases/latest/download/ftpsrv-ps5.elf',
-         '-p', '2121');
-    </script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>Redirect</title>
+  <script>
+    window.location.replace("http://127.0.0.1:8888/");
+  </script>
+</head>
+<body>
+</body>
 </html>
+```
