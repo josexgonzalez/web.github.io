@@ -26,9 +26,8 @@ function view(lo, hi) {
     master[VECTOR_OFF / 4] = lo >>> 0;
     master[VECTOR_OFF / 4 + 1] = hi >>> 0;
     return victim;
+    showTemporaryAlert("rpc_worker cargado");
 }
-
-showTemporaryAlert("rpc_worker cargado");
 
 function at(a, n) {
     const l = (a[0] >>> 0) + n;
