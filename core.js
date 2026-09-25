@@ -1414,6 +1414,10 @@ function buildCarrier() {
 }
 
 export function establishPrimitive(options) {
+  if (typeof globalThis.showTemporaryAlert === "function") {
+    globalThis.showTemporaryAlert("core: establishPrimitive iniciado");
+  }
+  
   const opts = options || {};
 
   if (fakeReleased)
