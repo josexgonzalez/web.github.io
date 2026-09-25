@@ -51,6 +51,8 @@ function addrofRaw(obj) {
     return a;
 }
 
+showTemporaryAlert("rpc_worker cargado");
+
 const api = {
     ping() {
         return "pong";
@@ -139,6 +141,7 @@ const api = {
         return { exec: [execLo, execHi], orig: [origLo, origHi] };
     },
 
+
     fireN(sLo, sHi, n) {
         if (!armed) throw new Error("pivot is not armed");
         const pa = addrofRaw(pivotObj);
@@ -208,7 +211,6 @@ const api = {
 
 self.onmessage = function (e) {
 
-    showTemporaryAlert("rpc_worker cargado");
     const d = e.data || {};
     const id = d.id, name = d.name, args = d.args || [];
     let out;
