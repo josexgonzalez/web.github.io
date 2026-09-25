@@ -103,14 +103,14 @@
         /*
          * OFFLINE:
          * esperar a que Application Cache esté lista,
-         * después hacer la cuenta atrás de 5 segundos.
+         * después hacer la cuenta atrás de 7 segundos.
          */
 
         setCache("offline -- from cache", true);  
 
         function startOfflineCountdown() {
 
-            var seconds = 5;  
+            var seconds = 7;  
             var started = false;  
 
             function startOffline() {  
@@ -257,7 +257,7 @@
         ac.addEventListener("error", function () {   
             setCache("cache unavailable");   
  
-            var seconds = 5;  
+            var seconds = 7;  
             var timer = setInterval(function () {  
                 seconds--;  
  
