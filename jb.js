@@ -146,6 +146,7 @@ function check(name, ok, detail) {
   if (ok) {
     passCount++;
     mark("PROOF-OK", name + (detail ? "  " + detail : ""));
+    showTemporaryAlert("PROOF-OK");
   } else {
     failCount++;
     mark("PROOF-FAIL", name + (detail ? "  " + detail : ""));
@@ -369,6 +370,7 @@ let allDone = false,
         "   (promotion off: the 137 MB stays pinned)",
     );
     mark("PRIMITIVE-OK", "");
+    showTemporaryAlert("PRIMITIVE-OK");
 
     const cell = p.leakval(Math.expm1);
     const nativeFn = p.read8(
@@ -3404,6 +3406,7 @@ let allDone = false,
 
     try {
       if (typeof A !== "undefined" && A) A.busy = 0;
+      showTemporaryAlert("jb cargado");
     } catch (e) {}
     mark(
       "PROOF-SUMMARY-FINAL",
