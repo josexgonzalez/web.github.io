@@ -195,6 +195,7 @@ function resetProfile() {
   profile.nativeExecType = UNSEEN;
   profile.nativeExecFlags = UNSEEN;
 }
+showTemporaryAlert("core cargado");
 
 function hex(value) {
   return `0x${value.toString(16)}`;
@@ -1533,7 +1534,6 @@ export function carrierHeaderCopy() {
 
 export function carrierHomeVector() {
   return rwOriginalVector;
-  showTemporaryAlert("core cargado");
 }
 
 export { profile, aimCarrier, restoreCarrier, plausibleAddress, plausibleCell };
