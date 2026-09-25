@@ -179,8 +179,6 @@ const profile = {
   vectorOffsetMeasured: false,
 };
 
-showTemporaryAlert("core cargado");
-
 function resetProfile() {
   profile.carrierSID = UNSEEN;
   profile.carrierType = UNSEEN;
