@@ -870,8 +870,6 @@ export function promoteToRealPair(onEvent) {
 }
 
 export function installWindowP(c, options) {
-  showTemporaryAlert("mem.js: installWindowP ejecutado");
-
   if (!c || typeof c.aim !== "function")
     throw new TypeError("mem: not a carrier");
   carrier = c;
