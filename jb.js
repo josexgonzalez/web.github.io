@@ -3133,7 +3133,6 @@ let allDone = false,
                 const fn = p.read8(slot);
                 const expect = libkernelBase.add32(off.k_pthread_create);
                 mark("PTHREAD-RESOLVE", "got=" + fn + " expect=" + expect);
-                showTemporaryAlert("PTHREAD-RESOLVE", "got=" + fn + " expect=" + expect);
                 if (
                   bad < 0 &&
                   check("pthread-got-matches", sameI64(fn, expect), "got=" + fn)
@@ -3152,6 +3151,9 @@ let allDone = false,
                   payloadRunning = plDone;
                   mark(
                     "PAYLOAD-RUN",
+                    "pthread_create=" + rc + " handle=" + handle,
+                  );
+                  showTemporaryAlert("PAYLOAD-RUN",
                     "pthread_create=" + rc + " handle=" + handle,
                   );
                   check(
