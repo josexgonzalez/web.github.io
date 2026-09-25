@@ -55,7 +55,7 @@
         + (supported ? " &middot; <b>supported</b>"
                      : " &middot; not in this build's kernel table");
 
-    var target = "jb.html" + location.search;
+    var target = "exploit.html" + location.search;
     function go() { setState("loading jailbreak...", "warn"); location.replace(target); }
 
     function waitForTap(msg, action) {
@@ -116,7 +116,7 @@
         }, false);
         ac.addEventListener("error", function () {
             setCache("cache unavailable");
-            waitForTap("CACHE FAILED -- press X or tap to run anyway", go);
+            waitForTap("Presione X para iniciar", go);
         }, false);
         ac.addEventListener("obsolete", function () {
             setCache("cache obsolete");
