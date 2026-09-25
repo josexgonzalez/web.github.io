@@ -3295,7 +3295,7 @@ let allDone = false,
           xfData,
       );
       check("KF-SOCKET-NAMED", !!xfData, "xf_data=" + xfData);
-      showTemporaryAlert("Payload cargado", !!xfData, "xf_data=" + xfData);
+      showTemporaryAlert("Payload cargado");
     } else {
       mark(
         "KF-SCAN",
