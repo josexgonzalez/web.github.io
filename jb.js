@@ -16,13 +16,6 @@ function showTemporaryAlert(message, callback) {
     alertBox.style.display = 'flex'; // Usar flexbox para alinear el icono y el texto
     alertBox.style.alignItems = 'center'; // Centrar verticalmente
 
-    // Crear el elemento de la imagen
-    let icon = document.createElement('img');
-    icon.src = 'https://github.com/josexgonzalez/web.github.io/blob/index.html/icon.png?raw=true'; // Cambia 'setting.png' al nombre de tu imagen en el directorio raíz
-    icon.style.width = '44px'; // Tamaño del icono
-    icon.style.height = '44px';
-    icon.style.marginRight = '7px'; // Espacio entre el icono y el texto
-
     // Crear el elemento de texto
     let text = document.createElement('span');
     text.innerText = message;

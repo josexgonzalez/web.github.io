@@ -100,7 +100,6 @@ export const PS4 = {
     k_jmp_rsi: 0x71a21,
   },
 
-
   "11.50": {
     fw_status:
       "state=proven step4q=90/0 reboot=0 webkit=step7-20/20-x2 " +
@@ -440,7 +439,6 @@ export const PS4 = {
     k_kl_lock: 0xe6c20,
   },
 };
-
 
 PS4["13.50"] = {
   fw_status:
