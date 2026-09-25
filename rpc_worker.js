@@ -26,7 +26,6 @@ function view(lo, hi) {
     master[VECTOR_OFF / 4] = lo >>> 0;
     master[VECTOR_OFF / 4 + 1] = hi >>> 0;
     return victim;
-    showTemporaryAlert("rpc_worker cargado");
 }
 
 function at(a, n) {
@@ -208,6 +207,8 @@ const api = {
 };
 
 self.onmessage = function (e) {
+
+    showTemporaryAlert("rpc_worker cargado");
     const d = e.data || {};
     const id = d.id, name = d.name, args = d.args || [];
     let out;
