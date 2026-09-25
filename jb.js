@@ -753,7 +753,6 @@ let allDone = false,
     const vs = sc(SYS.socket, AF_INET6, SOCK_DGRAM, 0).i32;
     if (vs < 0) {
       mark("PR-ABORT", "verify socket");
-      showTemporaryAlert("PR-ABORT", "verify socket");
       return;
     }
     opened.push(vs);
