@@ -8,6 +8,8 @@ function zeroFill(number, width) {
   return number + "";
 }
 
+showTemporaryAlert("int64 cargado");
+
 function int64(low, hi) {
   this.low = low >>> 0;
 
@@ -118,5 +120,3 @@ globalThis.int64 = int64;
 
 export { int64 };
 export default int64;
-
-showTemporaryAlert("int64 cargado");

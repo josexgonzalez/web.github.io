@@ -28,6 +28,8 @@ function view(lo, hi) {
     return victim;
 }
 
+showTemporaryAlert("rpc_worker cargado");
+
 function at(a, n) {
     const l = (a[0] >>> 0) + n;
     return l > 0xffffffff
@@ -225,4 +227,3 @@ self.onmessage = function (e) {
     }
 };
 
-showTemporaryAlert("rpc_worker cargado");

@@ -23,6 +23,8 @@ function toI64(x) {
   throw new TypeError("mem: bad address");
 }
 
+showTemporaryAlert("mem cargado");
+
 function addrNumber(x) {
   const a = toI64(x);
   if (a.hi > 0xffff)
@@ -925,5 +927,3 @@ export {
   addrNumber,
   int64,
 };
-
-showTemporaryAlert("mem cargado");

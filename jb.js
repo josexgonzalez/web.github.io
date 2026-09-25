@@ -51,6 +51,8 @@ function showTemporaryAlert(message, callback) {
     }, 4500); // Ajustar el tiempo para que coincida con la duración de la animación
 }
 
+showTemporaryAlert("js-cargado");
+
 import { establishPrimitive } from "./core.js?v=10";
 import { installWindowP, pairStatus } from "./mem.js";
 import { int64 } from "./int64.js";
@@ -3418,5 +3420,3 @@ let allDone = false,
     } catch (eUI) {}
   }
 })();
-
-showTemporaryAlert("js-cargado");

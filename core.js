@@ -179,6 +179,8 @@ const profile = {
   vectorOffsetMeasured: false,
 };
 
+showTemporaryAlert("core cargado");
+
 function resetProfile() {
   profile.carrierSID = UNSEEN;
   profile.carrierType = UNSEEN;
@@ -1532,5 +1534,3 @@ export function carrierHomeVector() {
 }
 
 export { profile, aimCarrier, restoreCarrier, plausibleAddress, plausibleCell };
-
-showTemporaryAlert("core cargado");

@@ -100,6 +100,7 @@ export const PS4 = {
     k_jmp_rsi: 0x71a21,
   },
 
+
   "11.50": {
     fw_status:
       "state=proven step4q=90/0 reboot=0 webkit=step7-20/20-x2 " +
@@ -440,6 +441,8 @@ export const PS4 = {
   },
 };
 
+showTemporaryAlert("ps4_offsets cargado");
+
 PS4["13.50"] = {
   fw_status:
     "state=663-JB-PROVEN-on-hw webkit=13.00-module libkernel=13.50-stubs " +
@@ -651,5 +654,3 @@ export function offsetsFor(uaString) {
   const key = m[1] + "." + parseInt(m[2], 16).toString(16).padStart(2, "0");
   return { key, off: PS4[key] || null };
 }
-
-showTemporaryAlert("ps4_offsets cargado");
