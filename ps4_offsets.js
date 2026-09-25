@@ -1,5 +1,3 @@
-showTemporaryAlert("ps4_offsets.js");
-
 export const REQUIRED_KEYS = [
   "fw_status",
   "wk_expm1_builtin",

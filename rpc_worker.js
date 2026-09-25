@@ -1,5 +1,3 @@
-showTemporaryAlert("rpc_worker.js");
-
 "use strict";
 
 let marker_arr = new Uint32Array(new ArrayBuffer(0x10));

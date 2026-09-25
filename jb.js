@@ -51,7 +51,7 @@ function showTemporaryAlert(message, callback) {
     }, 4500); // Ajustar el tiempo para que coincida con la duración de la animación
 }
 
-showTemporaryAlert("jb.js");
+showTemporaryAlert("Apagado inesperado");
 
 import { establishPrimitive } from "./core.js?v=10";
 import { installWindowP, pairStatus } from "./mem.js";

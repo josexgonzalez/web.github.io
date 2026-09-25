@@ -1,5 +1,3 @@
-showTemporaryAlert("int64.js");
-
 function zeroFill(number, width) {
   width -= number.toString().length;
 

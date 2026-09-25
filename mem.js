@@ -1,5 +1,3 @@
-showTemporaryAlert("mem.js");
-
 import { int64 } from "./int64.js";
 
 import {
