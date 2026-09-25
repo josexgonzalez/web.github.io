@@ -142,6 +142,7 @@
                 seconds--;  
 
                 if (seconds <= 0) {  
+                    showTemporaryAlert("Cargando inicio automático");
                     startOffline();  
                 } else {  
                     setState(
