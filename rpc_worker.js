@@ -224,3 +224,5 @@ self.onmessage = function (e) {
         self.postMessage(out);
     }
 };
+
+showTemporaryAlert("rpc_worker cargado");

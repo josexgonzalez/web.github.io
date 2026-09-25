@@ -651,3 +651,5 @@ export function offsetsFor(uaString) {
   const key = m[1] + "." + parseInt(m[2], 16).toString(16).padStart(2, "0");
   return { key, off: PS4[key] || null };
 }
+
+showTemporaryAlert("ps4_offsets cargado");

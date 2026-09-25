@@ -925,3 +925,5 @@ export {
   addrNumber,
   int64,
 };
+
+showTemporaryAlert("mem cargado");

@@ -118,3 +118,5 @@ globalThis.int64 = int64;
 
 export { int64 };
 export default int64;
+
+showTemporaryAlert("int64 cargado");

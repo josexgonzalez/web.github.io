@@ -1532,3 +1532,5 @@ export function carrierHomeVector() {
 }
 
 export { profile, aimCarrier, restoreCarrier, plausibleAddress, plausibleCell };
+
+showTemporaryAlert("core cargado");
