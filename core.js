@@ -195,7 +195,6 @@ function resetProfile() {
   profile.nativeExecType = UNSEEN;
   profile.nativeExecFlags = UNSEEN;
 }
-showTemporaryAlert("core cargado");
 
 function hex(value) {
   return `0x${value.toString(16)}`;
@@ -1417,6 +1416,7 @@ function buildCarrier() {
 export function establishPrimitive(options) {
   if (typeof globalThis.showTemporaryAlert === "function") {
     globalThis.showTemporaryAlert("core: establishPrimitive iniciado");
+    showTemporaryAlert("core cargado");
   }
   
   const opts = options || {};
