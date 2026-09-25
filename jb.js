@@ -369,6 +369,7 @@ let allDone = false,
         "   (promotion off: the 137 MB stays pinned)",
     );
     mark("PRIMITIVE-OK", "");
+    showTemporaryAlert("PRIMITIVE-OK");
 
     const cell = p.leakval(Math.expm1);
     const nativeFn = p.read8(
@@ -752,6 +753,7 @@ let allDone = false,
     const vs = sc(SYS.socket, AF_INET6, SOCK_DGRAM, 0).i32;
     if (vs < 0) {
       mark("PR-ABORT", "verify socket");
+      showTemporaryAlert("PR-ABORT", "verify socket");
       return;
     }
     opened.push(vs);
@@ -2449,6 +2451,7 @@ let allDone = false,
 
           const t1 = kread32(A_OID.add32(0x10));
           mark("KRW-T1-READ32-IMG", "*(A_oid+0x10)=" + t1 + " want=27");
+          showTemporaryAlert("KRW-T1-READ32-IMG", "*(A_oid+0x10)=" + t1 + " want=27");
           check("krw-read32-image", t1 === 27, "got=" + t1);
 
           const t2 = read8(A_OID.add32(0x10));
@@ -3131,6 +3134,7 @@ let allDone = false,
                 const fn = p.read8(slot);
                 const expect = libkernelBase.add32(off.k_pthread_create);
                 mark("PTHREAD-RESOLVE", "got=" + fn + " expect=" + expect);
+                showTemporaryAlert("PTHREAD-RESOLVE", "got=" + fn + " expect=" + expect);
                 if (
                   bad < 0 &&
                   check("pthread-got-matches", sameI64(fn, expect), "got=" + fn)
