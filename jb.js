@@ -960,7 +960,6 @@ let allDone = false,
         mskAd,
       ).i32;
       mark("PIN-RESTORED", "rv=" + r + " mask=0x" + savedMask.toString(16));
-      showTemporaryAlert("PIN-RESTORED", "rv=" + r + " mask=0x" + savedMask.toString(16));
     };
 
     mark(
@@ -1202,7 +1201,6 @@ let allDone = false,
       mark("PR-REAPLEAK", "cancel=" + rlc + " poll=" + rlp + " delete=" + rld);
     } else {
       mark("PR-REAPLEAK", "skipped park=" + (PARK ? 1 : 0));
-      showTemporaryAlert("PR-REAPLEAK", "skipped park=" + (PARK ? 1 : 0));
     }
 
     mark(
@@ -2453,7 +2451,6 @@ let allDone = false,
 
           const t1 = kread32(A_OID.add32(0x10));
           mark("KRW-T1-READ32-IMG", "*(A_oid+0x10)=" + t1 + " want=27");
-          showTemporaryAlert("KRW-T1-READ32-IMG", "*(A_oid+0x10)=" + t1 + " want=27");
           check("krw-read32-image", t1 === 27, "got=" + t1);
 
           const t2 = read8(A_OID.add32(0x10));
@@ -2617,7 +2614,6 @@ let allDone = false,
                 if (r.ok) kpatchBlob = new Uint8Array(await r.arrayBuffer());
               } catch (e) {
                 mark("KPATCH-FETCH-THREW", (e && e.message) || String(e));
-                showTemporaryAlert("KPATCH-FETCH-THREW", (e && e.message) || String(e));
               }
               if (kpatchBlob)
                 for (let i = 0; i + 7 <= kpatchBlob.length; i++) {
