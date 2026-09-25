@@ -946,7 +946,6 @@ let allDone = false,
       mark("PIN-ONE-CORE", "only one core available, workers share it");
     }
     mark("PIN-SPLIT", "main=" + PINCORE + " workers=" + OTHER + " " + wpin);
-    showTemporaryAlert("PIN-SPLIT", "main=" + PINCORE + " workers=" + OTHER + " " + wpin);
 
     pinRestore = function () {
       new Uint8Array(mskAb).fill(0);
@@ -2644,7 +2643,6 @@ let allDone = false,
                 if (r.ok) payloadBlob = new Uint8Array(await r.arrayBuffer());
               } catch (e) {
                 mark("PAYLOAD-FETCH-THREW", (e && e.message) || String(e));
-                showTemporaryAlert("PAYLOAD-FETCH-THREW", (e && e.message) || String(e));
               }
               mark(
                 "PAYLOAD-BLOB",
