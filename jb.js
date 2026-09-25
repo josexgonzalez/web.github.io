@@ -1,3 +1,58 @@
+function showTemporaryAlert(message, callback) {
+    // Crear el div para la alerta
+    let alertBox = document.createElement('div');
+    alertBox.style.position = 'fixed';
+    alertBox.style.top = '20px'; // Fija la posición vertical
+    alertBox.style.right = '-250px'; // Inicia fuera de la pantalla a la derecha
+    alertBox.style.backgroundColor = '#333'; // Color de fondo
+    alertBox.style.color = 'white'; // Color del texto blanco
+    alertBox.style.padding = '15px 30px'; // Aumentar el padding para mayor tamaño
+    alertBox.style.borderRadius = '5px';
+    alertBox.style.zIndex = '9999'; // Asegurar que esté encima de otros elementos
+    alertBox.style.textAlign = 'left'; // Alinear el texto a la izquierda
+    alertBox.style.transition = 'right 0.5s ease-out, opacity 0.5s ease-in'; // Transición para la entrada y salida
+    alertBox.style.fontSize = '18px'; // Aumentar el tamaño de la fuente
+    alertBox.style.width = '248px'; // Establecer un ancho fijo para la notificación
+    alertBox.style.display = 'flex'; // Usar flexbox para alinear el icono y el texto
+    alertBox.style.alignItems = 'center'; // Centrar verticalmente
+
+    // Crear el elemento de la imagen
+    let icon = document.createElement('img');
+    icon.src = '/explore/icon/setting.png'; // Cambia 'setting.png' al nombre de tu imagen en el directorio raíz
+    icon.style.width = '44px'; // Tamaño del icono
+    icon.style.height = '44px';
+    icon.style.marginRight = '7px'; // Espacio entre el icono y el texto
+
+    // Crear el elemento de texto
+    let text = document.createElement('span');
+    text.innerText = message;
+
+    // Añadir la imagen y el texto al alertBox
+    alertBox.appendChild(icon);
+    alertBox.appendChild(text);
+
+    // Añadir la alerta al cuerpo
+    document.body.appendChild(alertBox);
+
+    // Desplazar la alerta hacia su posición final
+    setTimeout(() => {
+        alertBox.style.right = '20px'; // Se mantiene en el borde derecho con 20px de margen
+    }, 30); // Breve retardo para activar la animación
+
+    // Después de 4 segundos, hacer que la alerta desaparezca sin caer
+    setTimeout(() => {
+        alertBox.style.opacity = '0'; // Desaparece gradualmente
+    }, 4000); // Esperar 4 segundos antes de la desaparición
+
+    // Remover la alerta después de que la animación de desaparición termine
+    setTimeout(() => {
+        alertBox.remove(); // Remover la alerta
+        if (callback) callback(); // Llamar al callback si se proporciona
+    }, 4500); // Ajustar el tiempo para que coincida con la duración de la animación
+}
+
+showTemporaryAlert("jb.js");
+
 import { establishPrimitive } from "./core.js?v=10";
 import { installWindowP, pairStatus } from "./mem.js";
 import { int64 } from "./int64.js";
