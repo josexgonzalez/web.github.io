@@ -69,7 +69,7 @@
     var target = "exploit.html" + location.search; 
  
     function go() {  
-        setState("loading jailbreak...", "warn");  
+        setState("", "");  
         location.replace(target);  
     }  
   
@@ -133,7 +133,7 @@
             }  
 
             setState(
-                "Automático en: " + seconds + " ",
+                "Presione X para iniciar o automático en: " + seconds + " ",
                 "warn"
             );  
 
@@ -145,7 +145,7 @@
                     startOffline();  
                 } else {  
                     setState(
-                        "Automático en: " + seconds + " ",
+                        "Presione X para iniciar o automático en: " + seconds + " ",
                         "warn"
                     );  
                 }  
@@ -239,7 +239,7 @@
  
         ac.addEventListener("cached", function () {  
             setCache("cached for offline use", true);  
-            waitForTap("Cache finalizado, presione X para continuar", go);  
+            waitForTap("CACHED (first run) -- press X or tap to run", go);  
         }, false);  
  
         ac.addEventListener("updateready", function () {  
@@ -266,7 +266,7 @@
                     go();  
                 } else {  
                     setState(
-                        "Automático en: " +
+                        "Presione X para iniciar o automático en: " +
                         seconds +
                         " ",
                         "warn"
@@ -275,7 +275,7 @@
             }, 1000);  
  
             setState(
-                "Automático en: " +
+                "Presione X para iniciar o automático en: " +
                 seconds +
                 " ",
                 "warn"
@@ -284,8 +284,7 @@
  
         ac.addEventListener("obsolete", function () {  
             setCache("cache obsolete");  
-            waitForTap("CACHE OBSOLETE -- press X or tap to run", go);
-            showTemporaryAlert("Cargando inicio automático");
+            waitForTap("CACHE OBSOLETE -- press X or tap to run", go);  
         }, false);  
     }  
 })();  
