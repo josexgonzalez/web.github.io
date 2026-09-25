@@ -1533,6 +1533,7 @@ export function carrierHeaderCopy() {
 
 export function carrierHomeVector() {
   return rwOriginalVector;
+  showTemporaryAlert("core cargado");
 }
 
 export { profile, aimCarrier, restoreCarrier, plausibleAddress, plausibleCell };
