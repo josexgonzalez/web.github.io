@@ -133,7 +133,7 @@
             }  
 
             setState(
-                "Presione X para iniciar o automático en: " + seconds + " ",
+                "Automático en: " + seconds + " ",
                 "warn"
             );  
 
@@ -145,7 +145,7 @@
                     startOffline();  
                 } else {  
                     setState(
-                        "Presione X para iniciar o automático en: " + seconds + " ",
+                        "Automático en: " + seconds + " ",
                         "warn"
                     );  
                 }  
@@ -239,7 +239,7 @@
  
         ac.addEventListener("cached", function () {  
             setCache("cached for offline use", true);  
-            waitForTap("CACHED (first run) -- press X or tap to run", go);  
+            waitForTap("Cache finalizado, presione X para continuar", go);  
         }, false);  
  
         ac.addEventListener("updateready", function () {  
@@ -266,7 +266,7 @@
                     go();  
                 } else {  
                     setState(
-                        "Presione X para iniciar o automático en: " +
+                        "Automático en: " +
                         seconds +
                         " ",
                         "warn"
@@ -275,7 +275,7 @@
             }, 1000);  
  
             setState(
-                "Presione X para iniciar o automático en: " +
+                "Automático en: " +
                 seconds +
                 " ",
                 "warn"
