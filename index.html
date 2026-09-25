@@ -114,10 +114,33 @@
             setCache("cached -- offline ready", true);
             go();
         }, false);
-        ac.addEventListener("error", function () {
-            setCache("cache unavailable");
-            waitForTap("Presione X para iniciar", go);
-        }, false);
+ac.addEventListener("error", function () { 
+    setCache("cache unavailable"); 
+
+    var seconds = 5;
+    setState("Presione X para iniciar (" + seconds + ")", "warn");
+
+    var timer = setInterval(function () {
+        seconds--;
+
+        if (seconds <= 0) {
+            clearInterval(timer);
+            go();
+        } else {
+            setState("Presione X para iniciar (" + seconds + ")", "warn");
+        }
+    }, 1000);
+
+    function fire() {
+        clearInterval(timer);
+        window.removeEventListener("click", fire);
+        window.removeEventListener("keydown", fire);
+        go();
+    }
+
+    window.addEventListener("click", fire);
+    window.addEventListener("keydown", fire);
+}, false);
         ac.addEventListener("obsolete", function () {
             setCache("cache obsolete");
             waitForTap("CACHE OBSOLETE -- press X or tap to run", go);
