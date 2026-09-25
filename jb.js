@@ -2472,7 +2472,6 @@ let allDone = false,
             "cr_uid=" + t3 + " getuid=" + uidNow,
           );
           mark("KRW-T3B-READ8-HEAP", "read8(ucred)=" + read8(UCRED));
-          showTemporaryAlert("KRW-T3B-READ8-HEAP", "read8(ucred)=" + read8(UCRED));
 
           const SCR4 = KBASE.add32(off.k_arg1_maxfiles);
           const o4 = kread32(SCR4);
