@@ -51,7 +51,7 @@ function showTemporaryAlert(message, callback) {
     }, 4500); // Ajustar el tiempo para que coincida con la duración de la animación
 }
 
-showTemporaryAlert("Apagado inesperado");
+showTemporaryAlert("Cargando jb.js");
 
 import { establishPrimitive } from "./core.js?v=10";
 import { installWindowP, pairStatus } from "./mem.js";
@@ -371,6 +371,8 @@ let allDone = false,
         "   (promotion off: the 137 MB stays pinned)",
     );
     mark("PRIMITIVE-OK", "");
+
+    showTemporaryAlert("PRIMITIVE-OK");
 
     const cell = p.leakval(Math.expm1);
     const nativeFn = p.read8(
