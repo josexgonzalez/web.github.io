@@ -18,7 +18,7 @@ function showTemporaryAlert(message, callback) {
 
     // Crear el elemento de la imagen
     let icon = document.createElement('img');
-    icon.src = '/explore/icon/setting.png'; // Cambia 'setting.png' al nombre de tu imagen en el directorio raíz
+    icon.src = '/icon.png'; // Cambia 'setting.png' al nombre de tu imagen en el directorio raíz
     icon.style.width = '44px'; // Tamaño del icono
     icon.style.height = '44px';
     icon.style.marginRight = '7px'; // Espacio entre el icono y el texto
