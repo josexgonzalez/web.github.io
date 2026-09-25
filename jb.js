@@ -946,6 +946,7 @@ let allDone = false,
       mark("PIN-ONE-CORE", "only one core available, workers share it");
     }
     mark("PIN-SPLIT", "main=" + PINCORE + " workers=" + OTHER + " " + wpin);
+    showTemporaryAlert("PIN-SPLIT", "main=" + PINCORE + " workers=" + OTHER + " " + wpin);
 
     pinRestore = function () {
       new Uint8Array(mskAb).fill(0);
@@ -959,6 +960,7 @@ let allDone = false,
         mskAd,
       ).i32;
       mark("PIN-RESTORED", "rv=" + r + " mask=0x" + savedMask.toString(16));
+      showTemporaryAlert("PIN-RESTORED", "rv=" + r + " mask=0x" + savedMask.toString(16));
     };
 
     mark(
@@ -1200,6 +1202,7 @@ let allDone = false,
       mark("PR-REAPLEAK", "cancel=" + rlc + " poll=" + rlp + " delete=" + rld);
     } else {
       mark("PR-REAPLEAK", "skipped park=" + (PARK ? 1 : 0));
+      showTemporaryAlert("PR-REAPLEAK", "skipped park=" + (PARK ? 1 : 0));
     }
 
     mark(
@@ -2473,6 +2476,7 @@ let allDone = false,
             "cr_uid=" + t3 + " getuid=" + uidNow,
           );
           mark("KRW-T3B-READ8-HEAP", "read8(ucred)=" + read8(UCRED));
+          showTemporaryAlert("KRW-T3B-READ8-HEAP", "read8(ucred)=" + read8(UCRED));
 
           const SCR4 = KBASE.add32(off.k_arg1_maxfiles);
           const o4 = kread32(SCR4);
@@ -2613,6 +2617,7 @@ let allDone = false,
                 if (r.ok) kpatchBlob = new Uint8Array(await r.arrayBuffer());
               } catch (e) {
                 mark("KPATCH-FETCH-THREW", (e && e.message) || String(e));
+                showTemporaryAlert("KPATCH-FETCH-THREW", (e && e.message) || String(e));
               }
               if (kpatchBlob)
                 for (let i = 0; i + 7 <= kpatchBlob.length; i++) {
@@ -2643,6 +2648,7 @@ let allDone = false,
                 if (r.ok) payloadBlob = new Uint8Array(await r.arrayBuffer());
               } catch (e) {
                 mark("PAYLOAD-FETCH-THREW", (e && e.message) || String(e));
+                showTemporaryAlert("PAYLOAD-FETCH-THREW", (e && e.message) || String(e));
               }
               mark(
                 "PAYLOAD-BLOB",
