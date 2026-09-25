@@ -441,7 +441,6 @@ export const PS4 = {
   },
 };
 
-showTemporaryAlert("ps4_offsets cargado");
 
 PS4["13.50"] = {
   fw_status:
