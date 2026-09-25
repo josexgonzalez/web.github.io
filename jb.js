@@ -3152,9 +3152,7 @@ let allDone = false,
                     "PAYLOAD-RUN",
                     "pthread_create=" + rc + " handle=" + handle,
                   );
-                  showTemporaryAlert("PAYLOAD-RUN",
-                    "pthread_create=" + rc + " handle=" + handle,
-                  );
+
                   check(
                     "PAYLOAD-RUNNING",
                     plDone,
@@ -3297,6 +3295,7 @@ let allDone = false,
           xfData,
       );
       check("KF-SOCKET-NAMED", !!xfData, "xf_data=" + xfData);
+      showTemporaryAlert("Payload cargado", !!xfData, "xf_data=" + xfData);
     } else {
       mark(
         "KF-SCAN",
